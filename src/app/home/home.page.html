@@ -12,9 +12,9 @@
 
     <div [ngStyle]="{'background-color':getCurrentHslCss()}" class="colorshow">
       <div class="colorshowinfo">    
-        <p>hex: ffffff</p>
+        <p>hex: {{colorConversion('hex',selectedColor)}}</p>
         <p>hsl: {{selectedColor.h}},{{selectedColor.s}}%,{{selectedColor.l}}%</p>
-        <p>rgb: {{colorConversion()}}</p>
+        <p>rgb: {{colorConversion('rgb',selectedColor)}}</p>
       </div>
     </div>
 
@@ -42,12 +42,12 @@
   <ion-list>
     <ion-item>
       <ion-label>Night mode</ion-label>
-      <ion-toggle [(ngModel)]="pepperoni"></ion-toggle>
+      <ion-toggle ></ion-toggle>
     </ion-item>
   
     <ion-item>
       <ion-label>Rainbow mode</ion-label>
-      <ion-toggle [(ngModel)]="sausage"></ion-toggle>
+      <ion-toggle ></ion-toggle>
     </ion-item>
 
   </ion-list>

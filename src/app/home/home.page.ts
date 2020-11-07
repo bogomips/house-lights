@@ -62,8 +62,16 @@ export class HomePage {
   }*/
 
   colorConversion(type,value) {
-    const color = new TinyColor('hsl(0, 100%, 50%)');
-    console.log(color);
+
+    const color = new TinyColor(value);
+    let format; 
+
+    if (type == 'hex')
+      format= color.toHexString();
+    else if (type == 'rgb')
+      format= color.toRgbString();
+
+    return format;
     //console.log(new TinyColor())
   }
 
