@@ -1,0 +1,142 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      House Lights
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <div class="colorpicker">
+
+    <div [ngStyle]="{'background-color':getCurrentHslCss()}" class="colorshow">
+      <div class="colorshowinfo">    
+        <p>hex: ffffff</p>
+        <p>hsl: {{selectedColor.h}},{{selectedColor.s}}%,{{selectedColor.l}}%</p>
+        <p>rgb: {{colorConversion()}}</p>
+      </div>
+    </div>
+
+    <div class="colorcontrols">
+      <ion-range class="hcontrol rangecontrol" (ionChange)="slideChange('h',$event)" [value]="selectedColor.h" min="0" max="360" pin="true"></ion-range>
+      <ion-range [style.--bar-background]="getSaturationGradient()" (ionChange)="slideChange('s',$event)" class="scontrol rangecontrol" min="0" max="100" [value]="selectedColor.s" pin="true"></ion-range>
+      <ion-range [style.--bar-background]="getLuminanceGradient()" (ionChange)="slideChange('l',$event)" class="lcontrol rangecontrol" min="0" max="100" [value]="selectedColor.l" pin="true"></ion-range>
+    </div>
+
+    <div>
+      <ion-grid>
+        <ion-row *ngFor="let presetRow of presetColorsChunks; let ri = index">
+          <ion-col *ngFor="let preset of presetRow; let ci = index">
+            <div class="presetEl" (click)="setPreset(preset)" [style.background]="getPreset(preset)" ></div>
+          </ion-col>
+        </ion-row>
+      </ion-grid> 
+    </div>
+
+    
+    <!-- <color-block [colors]="presetColorsArr()" [color]="presetColors[0].hsl"></color-block> -->
+  
+  </div>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Night mode</ion-label>
+      <ion-toggle [(ngModel)]="pepperoni"></ion-toggle>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label>Rainbow mode</ion-label>
+      <ion-toggle [(ngModel)]="sausage"></ion-toggle>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-grid>
+    <ion-row *ngFor="let presetRow of presetColorsChunks">
+      <ion-col *ngFor="let preset of presetRow">
+        <div class="preset" [style.background]="preset.color" (click)="selectedColor='preset1'"></div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- <color-hue-picker class="colorcontrol" (onChange)="handleChange($event)" [color]="presetColors[0].hsl" [width]="pickerWidth"></color-hue-picker>
+  <color-shade-picker class="colorcontrol" (onChange)="handleChange($event)" [color]="presetColors[0].hsl" [width]="pickerWidth"></color-shade-picker> 
+  <color-alpha-picker class="colorcontrol" (onChange)="handleChange($event)"    [color]="presetColors[0].hsl" [width]="pickerWidth"></color-alpha-picker>  -->
+    <!-- <span 
+      [style.background]="presetColors.selectedColor"
+      [cpToggle]="true"
+      [cpDialogDisplay]="'inline'"
+      [cpWidth]="300"
+      cpDisableInput="false"
+      [cpCancelButton]="false"
+      [(colorPicker)]="presetColors.selectedColor">
+    </span> -->
+
+    <!-- <color-sketch [presetColors]="[]"  color="#ff00ff"></color-sketch> -->
+    
+
+    <!-- <p>DIOOO</p>
+    
+    <color-block></color-block>
+    <color-chrome></color-chrome>
+    <color-circle></color-circle>
+    <color-compact></color-compact>
+    <color-github></color-github>
+    <color-material></color-material>
+    <color-photoshop></color-photoshop>
+    <color-sketch></color-sketch>
+    <color-slider></color-slider>
+    <color-swatches></color-swatches>
+    <color-twitter></color-twitter>  -->
+    
+
+
+
+
+    <!-- <ion-list>
+      <ion-item>
+        <ion-label>Night mode</ion-label>
+        <ion-toggle [(ngModel)]="pepperoni"></ion-toggle>
+      </ion-item>
+    
+      <ion-item>
+        <ion-label>Rainbow mode</ion-label>
+        <ion-toggle [(ngModel)]="sausage"></ion-toggle>
+      </ion-item>
+
+    </ion-list>
+
+    <ion-grid>
+      <ion-row *ngFor="let presetRow of presetColorsChunks">
+        <ion-col *ngFor="let preset of presetRow">
+          <div class="preset" [style.background]="preset.color" (click)="selectedColor='preset1'"></div>
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
+    
+
+
+
+  <!-- <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">dio</ion-title>
+    </ion-toolbar>
+  </ion-header> -->
+
+  <!--<div id="container">
+    <strong>Set your color</strong>
+    <div>
+      <ion-input type="color" id="color" name="color" value="#e66465"></ion-input>
+      <input cpToggle="true" cpDialogDisplay="inline" cpPosition="top" cpWidth="200" [(colorPicker)]="color" [style.background]="color"/>
+
+    <span [style.background]="arrayColors[0]"
+      [cpToggle]="true"
+      [cpDialogDisplay]="'inline'"
+      [cpCancelButton]="true"
+      [(colorPicker)]="arrayColors[0]"></span>
+
+  </div>
+  
+  </div>-->
+</ion-content>

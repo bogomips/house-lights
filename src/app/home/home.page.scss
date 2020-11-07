@@ -1,0 +1,93 @@
+// #container {
+//   text-align: center;
+
+//   position: absolute;
+//   left: 15%;
+//   right: 0;
+//   top: 10%;
+//   //transform: translateY(-50%);
+// }
+
+// #container strong {
+//   font-size: 20px;
+//   line-height: 26px;
+// }
+
+// #container p {
+//   font-size: 16px;
+//   line-height: 22px;
+
+//   color: #8c8c8c;
+
+//   margin: 0;
+// }
+
+// #container a {
+//   text-decoration: none;
+// }
+
+.colorpicker  {
+  //padding-top: 10px;
+  //margin: auto;
+  //width: calc(50% + 205px);
+}
+
+/*.color-picker-container >>> .color-picker {
+  border:none !important;
+}*/
+
+.presetEl {
+  height: 50px;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.colorshow {
+  width:100%;
+  height: 200px;
+  background-color: hsl(0,100%,50%);
+  //text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .colorshowinfo {
+    max-width: 50%;
+
+
+    p {
+      color: white;
+      text-shadow: 2px 2px #222;
+    }
+
+  }
+}
+
+.colorcontrols {
+  margin-top:10px;
+}
+
+.rangecontrol {
+  --pin-background: black;
+  --knob-size: 30px;
+  --knob-box-shadow: 0px 0px 5px 2px #999;
+  --knob-background: white;
+  --bar-background-active: none;
+  --height: 30px;
+  --bar-height: 18px;
+  --bar-border-radius: 10px;
+  //width: 90%;
+}
+
+.hcontrol {
+  --bar-background: linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
+}
+
+.scontrol {
+  //--bar-background: linear-gradient(to left, rgb(244, 71, 37) 20%, rgb(128, 128, 128));
+}
+
+.lcontrol {
+  //--bar-background: linear-gradient(to right, rgb(0, 0, 0), rgb(255, 0, 0), rgb(255, 255, 255));
+}
