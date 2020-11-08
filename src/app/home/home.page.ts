@@ -130,7 +130,7 @@ export class HomePage {
     return ((r * 299) + (g * 587) + (b * 114)) / 1000;
   }
 
-  contrast(colorRgb: RGB | undefined,threshold: number = 128) {
+  contrast(colorRgb: RGB) {
     this.contrastThreshold = this.rgbToYIQ(colorRgb); //>= threshold ? '#000' : '#fff';
     //console.log(this.contrastThreshold);
   }
