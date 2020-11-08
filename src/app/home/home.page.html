@@ -28,7 +28,8 @@
       <ion-grid>
         <ion-row *ngFor="let presetRow of presetColorsChunks; let ri = index">
           <ion-col *ngFor="let preset of presetRow; let ci = index">
-            <div class="presetEl" (click)="setPreset(preset)" [style.background]="getPreset(preset)" ></div>
+              <!-- <div class="presetEl" (click)="setPreset(preset)" [style.background]="getPreset(preset)" ></div> -->
+              <ion-button class="presetEl" (click)="setPreset(preset)" [style.--background]="getPreset(preset)"></ion-button>
           </ion-col>
         </ion-row>
       </ion-grid> 

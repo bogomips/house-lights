@@ -37,11 +37,16 @@
 }*/
 
 .presetEl {
-  height: 50px;
+  //height: 50px;
   width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-}
+   //border: 1px solid #ddd;
+  // border-radius: 10px;
+  --background-activated: white;
+  --border-color:#ddd;
+  --border-width:1px;
+  --border-style: solid;
+  --background-activated-opacity:0.5;
+ }
 
 .colorshow {
   width:100%;
