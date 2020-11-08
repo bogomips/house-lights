@@ -8,6 +8,13 @@ import { Plugins } from "@capacitor/core";
 const { UdpPlugin } = Plugins;
 //import {UdpPluginUtils} from "capacitor-udp"; // if you want support for converting between ArrayBuffer and String
 
+
+interface RGB {
+  b: number;
+  g: number;
+  r: number;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -20,6 +27,7 @@ export class HomePage {
   presetColorsChunks;
   //pickerWidth;
   selectedColor;
+  contrastThreshold;
   presetsLine=4;
 
   constructor(
@@ -41,30 +49,22 @@ export class HomePage {
     ];
 
     this.selectedColor = {
-      h: 0,
-      s: 100, 
-      l: 50,
+      hsl: {
+        h: 0,
+        s: 100, 
+        l: 0
+      },
+      hex: '000000',
+      rgb: {
+        r:0,
+        g:0,
+        b:0
+      }
     }
 
     this.presetColorsChunks=_chunk(this.presetColors,this.presetsLine);
-    //console.log(this.presetColorsChunks);
-
-    //this.selectedColor=this.presetColors.preset1;
-    //let a= document.getElementsByClassName('color-picker')
-    
-    //console.log(a);
 
   }
-
-  // handleChange(ev) {
-  //   console.log(ev)
-  //   this.presetColors[0].hsl=ev.color.hsl;
-  //   //console.log(this.presetColors)
-  // }
-
-  /*presetColorsArr() {
-    return this.presetColors.map(obj => obj.hsl);
-  }*/
 
   colorConversion(type,value) {
 
@@ -74,26 +74,31 @@ export class HomePage {
     if (type == 'hex')
       format= color.toHex();
     else if (type == 'rgb')
-      format= color.toRgbString();
+      format= color.toRgb();
 
     return format;
   }
 
   slideChange(type,ev) {
-    this.selectedColor[type]=ev.detail.value;
+
+    this.selectedColor.hsl[type]=ev.detail.value;
+    this.selectedColor.hex=this.colorConversion('hex', this.selectedColor.hsl);
     this.sendUpd();
+
+    this.selectedColor.rgb=this.colorConversion('rgb', this.selectedColor.hsl);
+    this.contrast(this.selectedColor.rgb);
   }
 
   getCurrentHslCss() {
-    return `hsl(${this.selectedColor.h},${this.selectedColor.s}%,${this.selectedColor.l}%)`;
+    return `hsl(${this.selectedColor.hsl.h},${this.selectedColor.hsl.s}%,${this.selectedColor.hsl.l}%)`;
   }
 
   getSaturationGradient() {
-    return `linear-gradient(to left, hsl(${this.selectedColor.h},100%,50%) 20%, rgb(128, 128, 128))`;
+    return `linear-gradient(to left, hsl(${this.selectedColor.hsl.h},100%,50%) 20%, rgb(128, 128, 128))`;
   }
 
   getLuminanceGradient() {
-    return `linear-gradient(to right, hsl(0, 0%, 0%), hsl(${this.selectedColor.h},100%,50%), hsl(255, 50%, 100%))`;
+    return `linear-gradient(to right, hsl(0, 0%, 0%), hsl(${this.selectedColor.hsl.h},100%,50%), hsl(255, 50%, 100%))`;
   }
 
   // getIndexFromRiCi(ri,ci) {
@@ -113,19 +118,29 @@ export class HomePage {
   // }
 
   getPreset(preset) {
-    let hsl = preset.hsl;
-    return `hsl(${hsl.h},${hsl.s}%,${hsl.l}%)`;
+    //let hsl = preset;
+    return `hsl(${preset.hsl.h},${preset.hsl.s}%,${preset.hsl.l}%)`;
   }
 
   setPreset(preset) {
-    this.selectedColor = preset.hsl;
+    this.selectedColor.hsl = preset.hsl;
   }
+
+  rgbToYIQ({ r, g, b }: RGB): number { 
+    return ((r * 299) + (g * 587) + (b * 114)) / 1000;
+  }
+
+  contrast(colorRgb: RGB | undefined,threshold: number = 128) {
+    this.contrastThreshold = this.rgbToYIQ(colorRgb); //>= threshold ? '#000' : '#fff';
+    //console.log(this.contrastThreshold);
+  }
+
 
   async sendUpd() {
 
     const targetAddress='192.168.1.232';
     const targetPort=4210;
-    let color = `0x${this.colorConversion('hex',this.selectedColor)}`;
+    let color = `0x${this.selectedColor.hex}`; 
 
     try {
 
@@ -139,5 +154,6 @@ export class HomePage {
 
 
   } 
+
 
 }

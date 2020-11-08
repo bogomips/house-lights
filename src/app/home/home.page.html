@@ -11,17 +11,17 @@
   <div class="colorpicker">
 
     <div [ngStyle]="{'background-color':getCurrentHslCss()}" class="colorshow">
-      <div class="colorshowinfo">    
-        <p>hex: #{{colorConversion('hex',selectedColor)}}</p>
-        <p>hsl: {{selectedColor.h}},{{selectedColor.s}}%,{{selectedColor.l}}%</p>
-        <p>rgb: {{colorConversion('rgb',selectedColor)}}</p>
+      <div [ngClass]="(contrastThreshold > 128)?'colorContrastBlack':'colorContrastWhite'" class="colorshowinfo">    
+        <p>hex: #{{selectedColor.hex}}</p>
+        <p>hsl: {{selectedColor.hsl.h}},{{selectedColor.hsl.s}}%,{{selectedColor.hsl.l}}%</p>
+        <p>rgb: {{selectedColor.rgb.r}},{{selectedColor.rgb.g}},{{selectedColor.rgb.b}}</p>
       </div>
     </div>
 
     <div class="colorcontrols">
-      <ion-range class="hcontrol rangecontrol" (ionChange)="slideChange('h',$event)" [value]="selectedColor.h" min="0" max="360" pin="true"></ion-range>
-      <ion-range [style.--bar-background]="getSaturationGradient()" (ionChange)="slideChange('s',$event)" class="scontrol rangecontrol" min="0" max="100" [value]="selectedColor.s" pin="true"></ion-range>
-      <ion-range [style.--bar-background]="getLuminanceGradient()" (ionChange)="slideChange('l',$event)" class="lcontrol rangecontrol" min="0" max="100" [value]="selectedColor.l" pin="true"></ion-range>
+      <ion-range class="hcontrol rangecontrol" (ionChange)="slideChange('h',$event)" [value]="selectedColor.hsl.h" min="0" max="360" pin="true"></ion-range>
+      <ion-range [style.--bar-background]="getSaturationGradient()" (ionChange)="slideChange('s',$event)" class="scontrol rangecontrol" min="0" max="100" [value]="selectedColor.hsl.s" pin="true"></ion-range>
+      <ion-range [style.--bar-background]="getLuminanceGradient()" (ionChange)="slideChange('l',$event)" class="lcontrol rangecontrol" min="0" max="100" [value]="selectedColor.hsl.l" pin="true"></ion-range> 
     </div>
 
     <div>
@@ -53,13 +53,7 @@
 
   </ion-list>
 
-  <ion-grid>
-    <ion-row *ngFor="let presetRow of presetColorsChunks">
-      <ion-col *ngFor="let preset of presetRow">
-        <div class="preset" [style.background]="preset.color" (click)="selectedColor='preset1'"></div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+
 
   <!-- <color-hue-picker class="colorcontrol" (onChange)="handleChange($event)" [color]="presetColors[0].hsl" [width]="pickerWidth"></color-hue-picker>
   <color-shade-picker class="colorcontrol" (onChange)="handleChange($event)" [color]="presetColors[0].hsl" [width]="pickerWidth"></color-shade-picker> 
