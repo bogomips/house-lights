@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import {Platform } from '@ionic/angular';
 import * as _chunk from 'lodash/chunk';
 import { TinyColor } from '@ctrl/tinycolor';
+import 'capacitor-udp';
+//import {UdpPluginUtils, IUdpPlugin} from 'capacitor-udp';
+import { Plugins } from "@capacitor/core";
+const { UdpPlugin } = Plugins;
+//import {UdpPluginUtils} from "capacitor-udp"; // if you want support for converting between ArrayBuffer and String
 
 @Component({
   selector: 'app-home',
@@ -18,7 +23,7 @@ export class HomePage {
   presetsLine=4;
 
   constructor(
-    private platform: Platform
+    private platform: Platform,
   ) {
 
     //this.pickerWidth = this.platform.width()-50;
@@ -42,7 +47,7 @@ export class HomePage {
     }
 
     this.presetColorsChunks=_chunk(this.presetColors,this.presetsLine);
-    console.log(this.presetColorsChunks);
+    //console.log(this.presetColorsChunks);
 
     //this.selectedColor=this.presetColors.preset1;
     //let a= document.getElementsByClassName('color-picker')
@@ -67,16 +72,16 @@ export class HomePage {
     let format; 
 
     if (type == 'hex')
-      format= color.toHexString();
+      format= color.toHex();
     else if (type == 'rgb')
       format= color.toRgbString();
 
     return format;
-    //console.log(new TinyColor())
   }
 
   slideChange(type,ev) {
     this.selectedColor[type]=ev.detail.value;
+    this.sendUpd();
   }
 
   getCurrentHslCss() {
@@ -115,5 +120,24 @@ export class HomePage {
   setPreset(preset) {
     this.selectedColor = preset.hsl;
   }
+
+  async sendUpd() {
+
+    const targetAddress='192.168.1.232';
+    const targetPort=4210;
+    let color = `0x${this.colorConversion('hex',this.selectedColor)}`;
+
+    try {
+
+      await UdpPlugin.closeAllSockets();
+      let info = await UdpPlugin.create();
+      await UdpPlugin.bind({ socketId: info.socketId, address: '127.0.0.1', port: 5510});
+      await UdpPlugin.send({ socketId: info.socketId, address: targetAddress, port: targetPort, buffer: btoa(color)});
+    } catch(e) {
+      console.log(e);
+    }
+
+
+  } 
 
 }

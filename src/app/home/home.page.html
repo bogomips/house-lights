@@ -12,7 +12,7 @@
 
     <div [ngStyle]="{'background-color':getCurrentHslCss()}" class="colorshow">
       <div class="colorshowinfo">    
-        <p>hex: {{colorConversion('hex',selectedColor)}}</p>
+        <p>hex: #{{colorConversion('hex',selectedColor)}}</p>
         <p>hsl: {{selectedColor.h}},{{selectedColor.s}}%,{{selectedColor.l}}%</p>
         <p>rgb: {{colorConversion('rgb',selectedColor)}}</p>
       </div>
