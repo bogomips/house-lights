@@ -13,8 +13,8 @@
     <div [ngStyle]="{'background-color':getCurrentHslCss()}" class="colorshow">
       <div [ngClass]="(contrastThreshold > 128)?'colorContrastBlack':'colorContrastWhite'" class="colorshowinfo">    
         <p>hex: #{{selectedColor.hex}}</p>
-        <p>hsl: {{selectedColor.hsl.h}},{{selectedColor.hsl.s}}%,{{selectedColor.hsl.l}}%</p>
-        <p>rgb: {{selectedColor.rgb.r}},{{selectedColor.rgb.g}},{{selectedColor.rgb.b}}</p>
+        <p>hsl: {{selectedColor.hsl.h}} - {{selectedColor.hsl.s}}% - {{selectedColor.hsl.l}}%</p>
+        <p>rgb: {{selectedColor.rgb.r}} - {{selectedColor.rgb.g}} - {{selectedColor.rgb.b}}</p>
       </div>
     </div>
 

@@ -2,19 +2,14 @@ import { Component } from '@angular/core';
 import {Platform } from '@ionic/angular';
 import * as _chunk from 'lodash/chunk';
 import * as _clone from 'lodash/clone';
-import { TinyColor } from '@ctrl/tinycolor';
+//import { TinyColor } from '@ctrl/tinycolor';
 import 'capacitor-udp';
 //import {UdpPluginUtils, IUdpPlugin} from 'capacitor-udp';
 import { Plugins } from "@capacitor/core";
 const { UdpPlugin } = Plugins;
+import { ColorsService } from '../services/colors.service'
 //import {UdpPluginUtils} from "capacitor-udp"; // if you want support for converting between ArrayBuffer and String
 
-
-interface RGB {
-  b: number;
-  g: number;
-  r: number;
-}
 
 @Component({
   selector: 'app-home',
@@ -33,6 +28,7 @@ export class HomePage {
 
   constructor(
     private platform: Platform,
+    private colors: ColorsService
   ) {
 
     //this.pickerWidth = this.platform.width()-50;
@@ -91,15 +87,16 @@ export class HomePage {
 
   }
 
-  colorConversion(type,value) {
+  colorConversion(type,colorHsl) {
 
-    const color = new TinyColor(value);
+    //const color = new TinyColor(value);
+    let { h,s,l } = colorHsl;
     let format; 
 
     if (type == 'hex')
-      format= color.toHex();
+      format= this.colors.hslToHex(h,s,l);
     else if (type == 'rgb')
-      format= color.toRgb();
+      format= this.colors.hslToRgb(h,s,l);
 
     return format;
   }
@@ -149,7 +146,6 @@ export class HomePage {
 
   setPreset(preset,ri,ci) {
 
-    
     let index = this.getIndexFromRiCi(ri,ci);
 
     let i=0;
@@ -169,15 +165,11 @@ export class HomePage {
 
   }
 
-  rgbToYIQ({ r, g, b }: RGB): number { 
-    return ((r * 299) + (g * 587) + (b * 114)) / 1000;
-  }
 
-  contrast(colorRgb: RGB) {
-    this.contrastThreshold = this.rgbToYIQ(colorRgb); //>= threshold ? '#000' : '#fff';
-    //console.log(this.contrastThreshold);
+  contrast(colorRgb) {
+    this.contrastThreshold = this.colors.rgbToYIQ(colorRgb);
   }
-
+  
 
   async sendUpd() {
 
