@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {Platform } from '@ionic/angular';
 import * as _chunk from 'lodash/chunk';
+import * as _clone from 'lodash/clone';
 import { TinyColor } from '@ctrl/tinycolor';
 import 'capacitor-udp';
 //import {UdpPluginUtils, IUdpPlugin} from 'capacitor-udp';
@@ -148,7 +149,7 @@ export class HomePage {
 
   setPreset(preset,ri,ci) {
 
-    this.selectedColor.hsl = preset.hsl;
+    
     let index = this.getIndexFromRiCi(ri,ci);
 
     let i=0;
@@ -160,6 +161,12 @@ export class HomePage {
       i++;
     }
     preset.buttonStatus=!preset.buttonStatus;
+
+    if (!preset.buttonStatus)
+      preset.hsl=_clone(this.selectedColor.hsl);
+    else
+      this.selectedColor.hsl = _clone(preset.hsl);
+
   }
 
   rgbToYIQ({ r, g, b }: RGB): number { 
