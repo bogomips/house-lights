@@ -38,14 +38,38 @@ export class HomePage {
     //console.log(this.pickerWidth,this.pickerWidth+50)
 
     this.presetColors=[
-      {hsl: {h: 0, s: 100, l: 50,}},
-      {hsl: {h: 50, s: 100, l: 50,}},
-      {hsl: {h: 100, s: 100, l: 50,}},
-      {hsl: {h: 175, s: 100, l: 50,}},
-      {hsl: {h: 200, s: 100, l: 50,}},
-      {hsl: {h: 275, s: 100, l: 50,}},
-      {hsl: {h: 300, s: 100, l: 50,}},
-      {hsl: {h: 330, s: 100, l: 50,}}
+      {
+        hsl: {h: 0, s: 100, l: 50,},
+        buttonStatus:false
+      },
+      {
+        hsl: {h: 50, s: 100, l: 50,},
+        buttonStatus:false
+      },
+      {
+        hsl: {h: 100, s: 100, l: 50,},
+        buttonStatus:false
+      },
+      {
+        hsl: {h: 175, s: 100, l: 50,},
+        buttonStatus:false
+      },
+      {
+        hsl: {h: 200, s: 100, l: 50,},
+        buttonStatus:false
+      },
+      {
+        hsl: {h: 275, s: 100, l: 50,},
+        buttonStatus:false
+      },
+      {
+        hsl: {h: 300, s: 100, l: 50,},
+        buttonStatus:false
+      },
+      {
+        hsl: {h: 330, s: 100, l: 50,},
+        buttonStatus:false
+      }
     ];
 
     this.selectedColor = {
@@ -101,9 +125,9 @@ export class HomePage {
     return `linear-gradient(to right, hsl(0, 0%, 0%), hsl(${this.selectedColor.hsl.h},100%,50%), hsl(255, 50%, 100%))`;
   }
 
-  // getIndexFromRiCi(ri,ci) {
-  //   return ((ri*this.presetsLine)+ci);
-  // }
+   getIndexFromRiCi(ri,ci) {
+     return ((ri*this.presetsLine)+ci);
+   }
 
   // getPreset(ri,ci) {
   //   let index = this.getIndexFromRiCi(ri,ci)
@@ -122,8 +146,20 @@ export class HomePage {
     return `hsl(${preset.hsl.h},${preset.hsl.s}%,${preset.hsl.l}%)`;
   }
 
-  setPreset(preset) {
+  setPreset(preset,ri,ci) {
+
     this.selectedColor.hsl = preset.hsl;
+    let index = this.getIndexFromRiCi(ri,ci);
+
+    let i=0;
+    for (let preset of this.presetColors) {
+
+      if (preset.buttonStatus && index!==i )
+        preset.buttonStatus=false;
+
+      i++;
+    }
+    preset.buttonStatus=!preset.buttonStatus;
   }
 
   rgbToYIQ({ r, g, b }: RGB): number { 
