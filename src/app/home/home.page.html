@@ -54,6 +54,12 @@
 
   </ion-list>
 
+<div class='powerBtn'>
+  <ion-button fill='clear' size='large' (click)="powerToggle()">
+    <ion-icon slot="icon-only" name="power" [color]="powerOn ? 'success' : 'danger'"></ion-icon>
+  </ion-button>
+</div>
+
 
 
   <!-- <color-hue-picker class="colorcontrol" (onChange)="handleChange($event)" [color]="presetColors[0].hsl" [width]="pickerWidth"></color-hue-picker>
