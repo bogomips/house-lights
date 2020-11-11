@@ -1,71 +1,117 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      House Lights
-    </ion-title>
+    <div class="toolbarBtn">
+      <ion-button
+        fill="clear"
+        size="large"
+        (click)="toolbarToggle(i)"
+        *ngFor="let button of switchButtons; let i=index;"
+      >
+        <ion-icon
+          class="headerIcons"
+          [color]="(button.active) ? 'success' : 'dark'"
+          [src]="button.icon"
+          slot="icon-only"
+        >
+        </ion-icon>
+      </ion-button>
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
   <div class="colorpicker">
-
     <div [ngStyle]="{'background-color':getCurrentHslCss()}" class="colorshow">
-      <div [ngClass]="(contrastThreshold > 128)?'colorContrastBlack':'colorContrastWhite'" class="colorshowinfo">    
+      <div
+        [ngClass]="(contrastThreshold > 128)?'colorContrastBlack':'colorContrastWhite'"
+        class="colorshowinfo"
+      >
         <p>hex: #{{selectedColor.hex}}</p>
-        <p>hsl: {{selectedColor.hsl.h}} - {{selectedColor.hsl.s}}% - {{selectedColor.hsl.l}}%</p>
-        <p>rgb: {{selectedColor.rgb.r}} - {{selectedColor.rgb.g}} - {{selectedColor.rgb.b}}</p>
+        <p>
+          hsl: {{selectedColor.hsl.h}} - {{selectedColor.hsl.s}}% -
+          {{selectedColor.hsl.l}}%
+        </p>
+        <p>
+          rgb: {{selectedColor.rgb.r}} - {{selectedColor.rgb.g}} -
+          {{selectedColor.rgb.b}}
+        </p>
       </div>
     </div>
 
     <div class="colorcontrols">
-      <ion-range class="hcontrol rangecontrol" (ionChange)="slideChange('h',$event)" [value]="selectedColor.hsl.h" min="0" max="360" pin="true"></ion-range>
-      <ion-range [style.--bar-background]="getSaturationGradient()" (ionChange)="slideChange('s',$event)" class="scontrol rangecontrol" min="0" max="100" [value]="selectedColor.hsl.s" pin="true"></ion-range>
-      <ion-range [style.--bar-background]="getLuminanceGradient()" (ionChange)="slideChange('l',$event)" class="lcontrol rangecontrol" min="0" max="100" [value]="selectedColor.hsl.l" pin="true"></ion-range> 
+      <ion-range
+        class="hcontrol rangecontrol"
+        (ionChange)="slideChange('h',$event)"
+        [value]="selectedColor.hsl.h"
+        min="0"
+        max="360"
+        pin="true"
+      ></ion-range>
+      <ion-range
+        [style.--bar-background]="getSaturationGradient()"
+        (ionChange)="slideChange('s',$event)"
+        class="scontrol rangecontrol"
+        min="0"
+        max="100"
+        [value]="selectedColor.hsl.s"
+        pin="true"
+      ></ion-range>
+      <ion-range
+        [style.--bar-background]="getLuminanceGradient()"
+        (ionChange)="slideChange('l',$event)"
+        class="lcontrol rangecontrol"
+        min="0"
+        max="100"
+        [value]="selectedColor.hsl.l"
+        pin="true"
+      ></ion-range>
     </div>
 
     <div>
       <ion-grid>
         <ion-row *ngFor="let presetRow of presetColorsChunks; let ri = index">
           <ion-col *ngFor="let preset of presetRow; let ci = index">
-              <!-- <div class="presetEl" (click)="setPreset(preset)" [style.background]="getPreset(preset)" ></div> -->
-              <ion-button [ngClass]="preset.buttonStatus ? ' grow' : ' ' " class="presetEl" (click)="setPreset(preset,ri,ci)" [style.--background]="getPreset(preset)"></ion-button>
-
+            <!-- <div class="presetEl" (click)="setPreset(preset)" [style.background]="getPreset(preset)" ></div> -->
+            <ion-button
+              [ngClass]="preset.buttonStatus ? ' grow' : ' ' "
+              class="presetEl"
+              (click)="setPreset(preset,ri,ci)"
+              [style.--background]="getPreset(preset)"
+            ></ion-button>
           </ion-col>
         </ion-row>
-      </ion-grid> 
+      </ion-grid>
     </div>
 
-    
     <!-- <color-block [colors]="presetColorsArr()" [color]="presetColors[0].hsl"></color-block> -->
-  
   </div>
 
   <ion-list>
     <ion-item>
-      <ion-label class='toggleLabel' >Night mode</ion-label>
-      <ion-toggle ></ion-toggle>
-    </ion-item>
-  
-    <ion-item>
-      <ion-label class='toggleLabel' >Rainbow mode</ion-label>
-      <ion-toggle ></ion-toggle>
+      <ion-label class="toggleLabel">Night mode</ion-label>
+      <ion-toggle></ion-toggle>
     </ion-item>
 
+    <ion-item>
+      <ion-label class="toggleLabel">Rainbow mode</ion-label>
+      <ion-toggle></ion-toggle>
+    </ion-item>
   </ion-list>
 
-<div class='powerBtn'>
-  <ion-button fill='clear' size='large' (click)="powerToggle()">
-    <ion-icon slot="icon-only" name="power" [color]="powerOn ? 'success' : 'danger'"></ion-icon>
-  </ion-button>
-</div>
-
-
+  <div class="powerBtn">
+    <ion-button fill="clear" size="large" (click)="powerToggle()">
+      <ion-icon
+        slot="icon-only"
+        name="power"
+        [color]="powerOn ? 'success' : 'danger'"
+      ></ion-icon>
+    </ion-button>
+  </div>
 
   <!-- <color-hue-picker class="colorcontrol" (onChange)="handleChange($event)" [color]="presetColors[0].hsl" [width]="pickerWidth"></color-hue-picker>
   <color-shade-picker class="colorcontrol" (onChange)="handleChange($event)" [color]="presetColors[0].hsl" [width]="pickerWidth"></color-shade-picker> 
   <color-alpha-picker class="colorcontrol" (onChange)="handleChange($event)"    [color]="presetColors[0].hsl" [width]="pickerWidth"></color-alpha-picker>  -->
-    <!-- <span 
+  <!-- <span 
       [style.background]="presetColors.selectedColor"
       [cpToggle]="true"
       [cpDialogDisplay]="'inline'"
@@ -75,10 +121,9 @@
       [(colorPicker)]="presetColors.selectedColor">
     </span> -->
 
-    <!-- <color-sketch [presetColors]="[]"  color="#ff00ff"></color-sketch> -->
-    
+  <!-- <color-sketch [presetColors]="[]"  color="#ff00ff"></color-sketch> -->
 
-    <!-- <p>DIOOO</p>
+  <!-- <p>DIOOO</p>
     
     <color-block></color-block>
     <color-chrome></color-chrome>
@@ -91,12 +136,8 @@
     <color-slider></color-slider>
     <color-swatches></color-swatches>
     <color-twitter></color-twitter>  -->
-    
 
-
-
-
-    <!-- <ion-list>
+  <!-- <ion-list>
       <ion-item>
         <ion-label>Night mode</ion-label>
         <ion-toggle [(ngModel)]="pepperoni"></ion-toggle>
@@ -116,9 +157,6 @@
         </ion-col>
       </ion-row>
     </ion-grid> -->
-    
-
-
 
   <!-- <ion-header collapse="condense">
     <ion-toolbar>
