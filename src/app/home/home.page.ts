@@ -109,7 +109,7 @@ export class HomePage {
 
     this.selectedColor.hsl[type]=ev.detail.value;
     this.selectedColor.hex=this.colorConversion('hex', this.selectedColor.hsl);
-    this.api.sendUpd(this.selectedColor.hex);
+    this.api.setColor(this.selectedColor.hex);
 
     this.selectedColor.rgb=this.colorConversion('rgb', this.selectedColor.hsl);
     this.contrast(this.selectedColor.rgb);
