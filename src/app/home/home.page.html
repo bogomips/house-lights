@@ -1,23 +1,30 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar
+    color="linear-gradient(0deg, rgba(22,23,23,1) 0%, rgba(101,96,96,1) 62%, rgba(133,137,139,1) 100%);"
+  >
     <div class="toolbarBtn">
       <ion-button
         fill="clear"
-        size="large"
         (click)="toolbarToggle(i)"
         *ngFor="let button of switchButtons; let i=index;"
+        [color]="(button.active) ? 'success' : 'light'"
       >
-        <ion-icon
+        <!-- <ion-icon
           class="headerIcons"
           [color]="(button.active) ? 'success' : 'dark'"
           [src]="button.icon"
           slot="icon-only"
         >
-        </ion-icon>
+        </ion-icon> -->
+        <span [ngClass]="button.active ? ' glow' : '' "
+          >{{button.station}}</span
+        >
       </ion-button>
     </div>
   </ion-toolbar>
 </ion-header>
+
+<!-- *************** Color Picker/Colorshow *********************** -->
 
 <ion-content [fullscreen]="true">
   <div class="colorpicker">
@@ -37,6 +44,8 @@
         </p>
       </div>
     </div>
+
+    <!-- *************** Color Controls hex,hsl,rgb  *********************** -->
 
     <div class="colorcontrols">
       <ion-range
@@ -67,6 +76,8 @@
       ></ion-range>
     </div>
 
+    <!-- *************** Preset Chunks *********************** -->
+
     <div>
       <ion-grid>
         <ion-row *ngFor="let presetRow of presetColorsChunks; let ri = index">
@@ -86,6 +97,8 @@
     <!-- <color-block [colors]="presetColorsArr()" [color]="presetColors[0].hsl"></color-block> -->
   </div>
 
+  <!-- *************** Mode Toggles *********************** -->
+
   <ion-list>
     <ion-item>
       <ion-label class="toggleLabel">Night mode</ion-label>
@@ -97,6 +110,8 @@
       <ion-toggle></ion-toggle>
     </ion-item>
   </ion-list>
+
+  <!-- *************** Power Button *********************** -->
 
   <div class="powerBtn">
     <ion-button fill="clear" size="large" (click)="powerToggle()">

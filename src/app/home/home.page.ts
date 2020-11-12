@@ -92,12 +92,12 @@ export class HomePage {
         active:false
       },
       {
-        station: 'dinningTable',
+        station: 'table',
         icon:'/assets/svg/noun_Ceiling lamp_1842794.svg',
         active:false
       },
        {
-        station: 'wallLamp',
+        station: 'wall',
         icon:'/assets/svg/noun_Couch_3243381.svg',
         active:false
       },
@@ -108,6 +108,7 @@ export class HomePage {
       }
 
     ]
+    
       
 
     this.presetColorsChunks=_chunk(this.presetColors,this.presetsLine);
@@ -157,9 +158,9 @@ export class HomePage {
     return `linear-gradient(to right, hsl(0, 0%, 0%), hsl(${this.selectedColor.hsl.h},100%,50%), hsl(255, 50%, 100%))`;
   }
 
-   getIndexFromRiCi(ri,ci) {
-     return ((ri*this.presetsLine)+ci);
-   }
+  getIndexFromRiCi(ri,ci) {
+    return ((ri*this.presetsLine)+ci);
+  }
 
   // getPreset(ri,ci) {
   //   let index = this.getIndexFromRiCi(ri,ci)
@@ -206,7 +207,7 @@ export class HomePage {
 
   powerToggle() {
     this.powerOn=!this.powerOn;
-    this.api.generalPowerStatus( this.powerOn);
+    this.api.generalPowerStatus(this.powerOn, this.switchButtons);
   }
 
 

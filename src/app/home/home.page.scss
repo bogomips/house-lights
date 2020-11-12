@@ -10,6 +10,15 @@
   .headerIcons {
     transform: scale(1.4);
   }
+
+  ion-button {
+    font-size: 18px;
+    font-weight: bolder;
+  }
+}
+.glow {
+  text-shadow: 0px 0px 5px #0ff50f;
+  transition: all 1s ease-in-out;
 }
 // ************* Color Display & Info *************** //
 .colorshow {
@@ -96,7 +105,7 @@
 
 ion-toggle {
   --background: #4c4b4e;
-  --background-checked: #7a49a5;
+  --background-checked: #75fc07;
 
   --handle-background: #b6b3bd;
   --handle-background-checked: #b6b3bd;

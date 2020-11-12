@@ -51,13 +51,20 @@ export class ApiService {
     this.http.get(endpoint) .subscribe((data: any) => console.log(data));
   }
 
-  generalPowerStatus(status) {
-    
-    this.barSignSwitch(status);
+  generalPowerStatus(status: boolean, devices) {
 
-    let colorOn = this.setup.lastColor || 'FF1486'
-    const hexCol =  (!status) ? '000000' : colorOn;
-    this.sendUpd(hexCol);
+    for (let device of devices) {
+
+      if (device.station == 'bar' && device.active)
+        this.barSignSwitch(status);
+
+      if (device.station == 'bed' && device.active) { 
+
+        let colorOn = this.setup.lastColor || 'FF1486'
+        const hexCol =  (!status) ? '000000' : colorOn;
+        this.sendUpd(hexCol);
+      }
+    }
 
     this.setup.generalPowerStatus = status;
   }
