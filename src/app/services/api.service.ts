@@ -9,6 +9,9 @@ import 'capacitor-udp';
 import { Plugins } from "@capacitor/core";
 const { UdpPlugin } = Plugins;
 
+import { StateService } from '../services/state.service'
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +26,13 @@ export class ApiService {
       endpoint:'192.168.1.232',
       port:4210
     },
-    generalPowerStatus:true,
+    //generalPowerStatus:true,
     lastColor:'',
   }
+
+  udpStruct={
+    info:null
+  };
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -37,10 +44,24 @@ export class ApiService {
   };
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private state:StateService
   ) { 
 
-    //
+    this.setUdp();
+  }
+
+  async setUdp() {
+
+    try {
+    
+      await UdpPlugin.closeAllSockets();
+      this.udpStruct.info = await UdpPlugin.create();
+      await UdpPlugin.bind({ socketId: this.udpStruct.info.socketId, address: '127.0.0.1', port: 5510});
+
+    } catch(e) {
+      console.log(e);
+    }
 
   }
 
@@ -51,33 +72,33 @@ export class ApiService {
     this.http.get(endpoint) .subscribe((data: any) => console.log(data));
   }
 
-  generalPowerStatus(status: boolean, devices) {
+  generalPowerStatus() {
+    
+      const state =this.state.getButtonState();
 
-    for (let device of devices) {
+      if (state['bar'])
+        this.barSignSwitch(state['power']);
 
-      if (device.station == 'bar' && device.active)
-        this.barSignSwitch(status);
-
-      if (device.station == 'bed' && device.active) { 
+      if (state['bed']) { 
 
         let colorOn = this.setup.lastColor || 'FF1486'
-        const hexCol =  (!status) ? '000000' : colorOn;
+        const hexCol =  (!state['power']) ? '000000' : colorOn;
         this.sendUpd(hexCol);
-      }
-    }
+      }    
 
-    this.setup.generalPowerStatus = status;
+    //this.setup.generalPowerStatus = status;
   }
 
   setColor(colorHex) {
 
     this.setup.lastColor=colorHex;
-    
-    if (!this.setup.generalPowerStatus)
-      return;
 
-    this.sendUpd(colorHex);
-    
+    const state =this.state.getButtonState();
+        
+
+    if (state['power'] && state['bed'])
+      this.sendUpd(colorHex);
+        
 
   }
 
@@ -86,12 +107,8 @@ export class ApiService {
     let color = `0x${colorHex}`; 
     
     try {
-
-      await UdpPlugin.closeAllSockets();
-      let info = await UdpPlugin.create();
-      await UdpPlugin.bind({ socketId: info.socketId, address: '127.0.0.1', port: 5510});
-      await UdpPlugin.send({ socketId: info.socketId, address: this.setup.bed.endpoint, port: this.setup.bed.port, buffer: btoa(color)});
-      
+      //console.log(this.udpStruct.info.socketId)
+      await UdpPlugin.send({ socketId: this.udpStruct.info.socketId, address: this.setup.bed.endpoint, port: this.setup.bed.port, buffer: btoa(color)});      
 
     } catch(e) {
       console.log(e);

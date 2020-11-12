@@ -1,7 +1,8 @@
 {
   "name": "bed-light",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

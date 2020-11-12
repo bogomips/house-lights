@@ -6,6 +6,7 @@ import * as _clone from 'lodash/clone';
 
 import { ColorsService } from '../services/colors.service';
 import { ApiService } from '../services/api.service'
+import { StateService } from '../services/state.service'
 
 //import {UdpPluginUtils} from "capacitor-udp"; // if you want support for converting between ArrayBuffer and String
 
@@ -30,7 +31,8 @@ export class HomePage {
   constructor(
     private platform: Platform,
     private colors: ColorsService,
-    private api:ApiService
+    private api:ApiService,
+    private state:StateService
   ) {
 
     //this.pickerWidth = this.platform.width()-50;
@@ -108,13 +110,10 @@ export class HomePage {
       }
 
     ]
-    
-      
+          
 
     this.presetColorsChunks=_chunk(this.presetColors,this.presetsLine);
-
-
-
+    this.state.setButtonState({power: this.powerOn, buttons:this.switchButtons});
 
   }
 
@@ -134,6 +133,7 @@ export class HomePage {
 
   toolbarToggle(i) {
     this.switchButtons[i].active = ! this.switchButtons[i].active;
+    this.state.setButtonState({power: this.powerOn, buttons:this.switchButtons});
   }
 
   slideChange(type,ev) {
@@ -207,7 +207,8 @@ export class HomePage {
 
   powerToggle() {
     this.powerOn=!this.powerOn;
-    this.api.generalPowerStatus(this.powerOn, this.switchButtons);
+    this.state.setButtonState({power: this.powerOn, buttons:this.switchButtons});
+    this.api.generalPowerStatus();
   }
 
 
