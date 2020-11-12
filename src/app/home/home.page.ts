@@ -21,8 +21,9 @@ export class HomePage {
   presetColorsChunks;
   //pickerWidth;
   selectedColor;
+  switchButtons;
   
-  powerOn:boolean=true;
+  powerOn:boolean=true;  ///PLEASE DELETE ME!!!!!!
   contrastThreshold;
   presetsLine=4;
 
@@ -84,6 +85,31 @@ export class HomePage {
       }
     }
 
+    this.switchButtons = [
+      {
+        station: 'bar',
+        icon: '/assets/svg/noun_beer mug_1028502.svg',
+        active:false
+      },
+      {
+        station: 'dinningTable',
+        icon:'/assets/svg/noun_Ceiling lamp_1842794.svg',
+        active:false
+      },
+       {
+        station: 'wallLamp',
+        icon:'/assets/svg/noun_Couch_3243381.svg',
+        active:false
+      },
+      {
+        station: 'bed',
+        icon:'/assets/svg/noun_Love_2195485.svg',
+        active:false
+      }
+
+    ]
+      
+
     this.presetColorsChunks=_chunk(this.presetColors,this.presetsLine);
 
 
@@ -103,6 +129,10 @@ export class HomePage {
       format= this.colors.hslToRgb(h,s,l);
 
     return format;
+  }
+
+  toolbarToggle(i) {
+    this.switchButtons[i].active = ! this.switchButtons[i].active;
   }
 
   slideChange(type,ev) {
