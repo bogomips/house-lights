@@ -1,0 +1,36 @@
+.header-toolbar {
+  border-bottom: 2px solid #b6b3bd;
+  --background: #121212;
+  ion-icon {
+    color: #b6b3bd;
+    font-size: 27px;
+  }
+}
+
+.header-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  span {
+    font-size: 24px;
+    font-weight: 400;
+    color: #b6b3bd;
+    padding: 0 7px;
+  }
+}
+
+ion-toolbar {
+  --background: #121212;
+}
+.footerBtn {
+  font-size: 20px;
+  color: #b6b3bd;
+  text-transform: lowercase;
+  ion-icon {
+    color: #b6b3bd;
+    font-size: 20px;
+    padding-right: 5px;
+  }
+}

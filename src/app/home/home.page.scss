@@ -139,11 +139,14 @@ ion-list {
   justify-content: center;
   ion-button {
     font-size: 25px;
+    height: auto;
   }
 }
 
 //************ Footer Buttons ***************//
-
+ion-toolbar {
+  --background: #121212;
+}
 .footerBtn {
   font-size: 19px;
   ion-icon {
