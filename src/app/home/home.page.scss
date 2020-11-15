@@ -101,7 +101,7 @@
   transform: scale(1.1);
 }
 
-// ************* Toggles ************** //
+// ************* Toggle ************** //
 
 ion-toggle {
   --background: #4c4b4e;
@@ -110,21 +110,43 @@ ion-toggle {
   --handle-background: #b6b3bd;
   --handle-background-checked: #b6b3bd;
 
-  height: 29px;
-  width: 54px;
-  --handle-height: 30px;
-  --handle-width: 32px;
+  height: 27px;
+  width: 52px;
+  --handle-height: 28px;
+  --handle-width: 30px;
 }
 
-// ************* Toggle Labels************** //
-
+// ************* Toggle Label & Selector************** //
+ion-list {
+  padding: 3px auto;
+}
 .toggleLabel {
   --color: var(--ion-color-light);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 }
-
+.selectorBtn {
+  --color: var(--ion-color-light);
+  ion-label {
+    font-size: 1.1rem;
+  }
+  ion-select {
+    font-size: 1.1rem;
+  }
+}
 //************** Power Button **************//
 .powerBtn {
   display: flex;
   justify-content: center;
+  ion-button {
+    font-size: 25px;
+  }
+}
+
+//************ Footer Buttons ***************//
+
+.footerBtn {
+  font-size: 19px;
+  ion-icon {
+    color: #b6b3bd;
+  }
 }
