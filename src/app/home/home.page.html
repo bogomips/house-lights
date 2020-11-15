@@ -131,18 +131,6 @@
     </ion-button>
   </div>
 
-  <!-- ****************** Footer *********************** -->
-  <ion-footer class="ion-no-border">
-    <ion-toolbar>
-      <ion-button class="footerBtn" slot="start" fill="clear">
-        <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
-      </ion-button>
-      <ion-button class="footerBtn" slot="end" fill="clear">
-        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
-      </ion-button>
-    </ion-toolbar>
-  </ion-footer>
-
   <!-- <color-hue-picker class="colorcontrol" (onChange)="handleChange($event)" [color]="presetColors[0].hsl" [width]="pickerWidth"></color-hue-picker>
   <color-shade-picker class="colorcontrol" (onChange)="handleChange($event)" [color]="presetColors[0].hsl" [width]="pickerWidth"></color-shade-picker> 
   <color-alpha-picker class="colorcontrol" (onChange)="handleChange($event)"    [color]="presetColors[0].hsl" [width]="pickerWidth"></color-alpha-picker>  -->
@@ -215,3 +203,19 @@
   
   </div>-->
 </ion-content>
+<!-- ****************** Footer *********************** -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-button
+      routerLink="/device-settings"
+      class="footerBtn"
+      slot="start"
+      fill="clear"
+    >
+      <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+    </ion-button>
+    <ion-button class="footerBtn" slot="end" fill="clear">
+      <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
