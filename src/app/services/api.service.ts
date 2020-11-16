@@ -83,32 +83,38 @@ export class ApiService {
 
         let colorOn = this.setup.lastColor || 'FF1486'
         const hexCol =  (!state['power']) ? '000000' : colorOn;
-        this.sendUpd(hexCol);
+        this.sendUpd(`0x${hexCol}`);
       }    
 
     //this.setup.generalPowerStatus = status;
   }
 
-  setColor(colorHex) {
+  setColor(hexCol) {
 
-    this.setup.lastColor=colorHex;
+    this.setup.lastColor=hexCol;
 
     const state =this.state.getButtonState();
         
+    if (state['power'] && state['bed']) 
+      this.sendUpd(`0x${hexCol}`); 
+    
+  }
+
+  setMode(mode) {
+
+    //this.setup.lastColor=colorHex;
+    const state =this.state.getButtonState();  
 
     if (state['power'] && state['bed'])
-      this.sendUpd(colorHex);
-        
+      this.sendUpd(mode);   
 
   }
 
-  private async sendUpd(colorHex) {
-
-    let color = `0x${colorHex}`; 
+  private async sendUpd(data) { console.log(data);
     
     try {
       //console.log(this.udpStruct.info.socketId)
-      await UdpPlugin.send({ socketId: this.udpStruct.info.socketId, address: this.setup.bed.endpoint, port: this.setup.bed.port, buffer: btoa(color)});      
+      await UdpPlugin.send({ socketId: this.udpStruct.info.socketId, address: this.setup.bed.endpoint, port: this.setup.bed.port, buffer: btoa(data)});      
 
     } catch(e) {
       console.log(e);

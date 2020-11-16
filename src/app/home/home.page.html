@@ -106,7 +106,7 @@
 
   <ion-item class="selectorBtn">
     <ion-label>Color Mode</ion-label>
-    <ion-select value="none" okText="OK" cancelText="cancel">
+    <ion-select [(ngModel)]="mode" (ionChange)="modeChange()" value="basic" okText="OK" cancelText="cancel">
       <ion-select-option *ngFor="let mode of modes;" value="{{mode.value}}"
         >{{mode.name}}</ion-select-option
       >

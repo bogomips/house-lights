@@ -20,6 +20,7 @@ export class HomePage {
 
   presetColors;
   modes;
+  mode='basic';
   presetColorsChunks;
   //pickerWidth;
   selectedColor;
@@ -114,23 +115,25 @@ export class HomePage {
           
     this.modes =[
       {
-        name: 'None',
-        value: 'none',
+        name: 'Basic',
+        value: 'basic',
       },
       {
         name: 'Rainbow',
         value: 'rainbow',
       },
       {
-        name: 'Disco',
-        value: 'disco',
+        name: 'Meteor',
+        value: 'meteorrain',
+      },
+      {
+        name: 'New Kitt',
+        value: 'newkitt',
       }
     ] 
 
     this.presetColorsChunks=_chunk(this.presetColors,this.presetsLine);
     this.state.setButtonState({power: this.powerOn, buttons:this.switchButtons});
-    
-
 
   }
 
@@ -146,6 +149,10 @@ export class HomePage {
       format= this.colors.hslToRgb(h,s,l);
 
     return format;
+  }
+
+  modeChange() {
+    this.api.setMode(this.mode);
   }
 
   toolbarToggle(i) {
