@@ -97,19 +97,27 @@
     <!-- <color-block [colors]="presetColorsArr()" [color]="presetColors[0].hsl"></color-block> -->
   </div>
 
-  <!-- *************** Mode Toggles *********************** -->
+  <!-- *************** Night Mode Toggle & Mode Selector *********************** -->
 
-  <ion-list>
-    <ion-item>
-      <ion-label class="toggleLabel">Night mode</ion-label>
-      <ion-toggle></ion-toggle>
-    </ion-item>
+  <ion-item>
+    <ion-label class="toggleLabel">Night mode</ion-label>
+    <ion-toggle></ion-toggle>
+  </ion-item>
 
-    <ion-item>
-      <ion-label class="toggleLabel">Rainbow mode</ion-label>
-      <ion-toggle></ion-toggle>
-    </ion-item>
-  </ion-list>
+  <ion-item class="selectorBtn">
+    <ion-label>Color Mode</ion-label>
+    <ion-select value="none" okText="OK" cancelText="cancel">
+      <ion-select-option *ngFor="let mode of modes;" value="{{mode.value}}"
+        >{{mode.name}}</ion-select-option
+      >
+
+      <!-- <ion-select-option value="night">Night</ion-select-option>
+      <ion-select-option value="rainbow">Rainbow</ion-select-option>
+      <ion-select-option value="morning">Morning</ion-select-option>
+      <ion-select-option value="fireworks">Fireworks</ion-select-option>
+      <ion-select-option value="disco">Disco</ion-select-option> -->
+    </ion-select>
+  </ion-item>
 
   <!-- *************** Power Button *********************** -->
 
@@ -195,3 +203,19 @@
   
   </div>-->
 </ion-content>
+<!-- ****************** Footer *********************** -->
+<ion-footer class="ion-no-border">
+  <ion-toolbar>
+    <ion-button
+      routerLink="/device-settings"
+      class="footerBtn"
+      slot="start"
+      fill="clear"
+    >
+      <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+    </ion-button>
+    <ion-button class="footerBtn" slot="end" fill="clear">
+      <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

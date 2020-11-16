@@ -19,6 +19,7 @@ import { StateService } from '../services/state.service'
 export class HomePage {
 
   presetColors;
+  modes;
   presetColorsChunks;
   //pickerWidth;
   selectedColor;
@@ -98,7 +99,7 @@ export class HomePage {
         icon:'/assets/svg/noun_Ceiling lamp_1842794.svg',
         active:false
       },
-       {
+      {
         station: 'wall',
         icon:'/assets/svg/noun_Couch_3243381.svg',
         active:false
@@ -111,9 +112,25 @@ export class HomePage {
 
     ]
           
+    this.modes =[
+      {
+        name: 'None',
+        value: 'none',
+      },
+      {
+        name: 'Rainbow',
+        value: 'rainbow',
+      },
+      {
+        name: 'Disco',
+        value: 'disco',
+      }
+    ] 
 
     this.presetColorsChunks=_chunk(this.presetColors,this.presetsLine);
     this.state.setButtonState({power: this.powerOn, buttons:this.switchButtons});
+    
+
 
   }
 
