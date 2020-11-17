@@ -20,6 +20,7 @@ export class HomePage {
 
   presetColors;
   modes;
+  nightmode;
   mode='basic';
   presetColorsChunks;
   //pickerWidth;
@@ -129,6 +130,14 @@ export class HomePage {
       {
         name: 'New Kitt',
         value: 'newkitt',
+      },
+      {
+        name: 'Disco',
+        value: 'disco',
+      },
+      {
+        name: 'Strobo',
+        value: 'strobo',
       }
     ] 
 
@@ -153,6 +162,15 @@ export class HomePage {
 
   modeChange() {
     this.api.setMode(this.mode);
+    this.nightmode=false;
+  }
+
+  nightmodeChange(){
+    if (this.nightmode) 
+      this.api.setMode('nightmode');
+    else
+      this.modeChange();
+
   }
 
   toolbarToggle(i) {

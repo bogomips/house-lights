@@ -80,7 +80,7 @@ export class ApiService {
         this.barSignSwitch(state['power']);
 
       if (state['bed']) { 
-
+        this.setMode('basic');
         let colorOn = this.setup.lastColor || 'FF1486'
         const hexCol =  (!state['power']) ? '000000' : colorOn;
         this.sendUpd(`0x${hexCol}`);
