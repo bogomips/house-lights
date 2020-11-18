@@ -94,22 +94,22 @@ export class HomePage {
       {
         station: 'bar',
         icon: '/assets/svg/noun_beer mug_1028502.svg',
-        active:false
+        active:true
       },
       {
         station: 'table',
         icon:'/assets/svg/noun_Ceiling lamp_1842794.svg',
-        active:false
+        active:true
       },
       {
         station: 'wall',
         icon:'/assets/svg/noun_Couch_3243381.svg',
-        active:false
+        active:true
       },
       {
         station: 'bed',
         icon:'/assets/svg/noun_Love_2195485.svg',
-        active:false
+        active:true
       }
 
     ]
@@ -161,8 +161,11 @@ export class HomePage {
   }
 
   modeChange() {
-    this.api.setMode(this.mode);
-    this.nightmode=false;
+    if (this.nightmode) 
+      this.nightmode=false; //this triggers this function again and it goes into the else branch - this is to avoid to cal setMode() twice
+    else
+      this.api.setMode(this.mode);
+    
   }
 
   nightmodeChange(){
@@ -179,6 +182,11 @@ export class HomePage {
   }
 
   slideChange(type,ev) {
+
+    if (this.mode != 'basic'  || this.nightmode) {
+      this.mode='basic';
+      this.modeChange();
+    }
 
     this.selectedColor.hsl[type]=ev.detail.value;
     this.selectedColor.hex=this.colorConversion('hex', this.selectedColor.hsl);

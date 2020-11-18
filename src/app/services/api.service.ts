@@ -80,7 +80,7 @@ export class ApiService {
         this.barSignSwitch(state['power']);
 
       if (state['bed']) { 
-        this.setMode('basic');
+        this.sendUpd('basic'); //cannot use the setMode() or it will work only when I switch the power button on!
         let colorOn = this.setup.lastColor || 'FF1486'
         const hexCol =  (!state['power']) ? '000000' : colorOn;
         this.sendUpd(`0x${hexCol}`);
@@ -100,7 +100,7 @@ export class ApiService {
     
   }
 
-  setMode(mode) {
+  setMode(mode) { //console.log("mode >> ",mode);
 
     //this.setup.lastColor=colorHex;
     const state =this.state.getButtonState();  
@@ -110,7 +110,7 @@ export class ApiService {
 
   }
 
-  private async sendUpd(data) { console.log(data);
+  private async sendUpd(data) { //console.log(data);
     
     try {
       //console.log(this.udpStruct.info.socketId)
