@@ -7,7 +7,40 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content> </ion-content>
+<ion-content>
+  <h1>Add or modify a device:</h1>
+
+  <ion-item>
+    <ion-label class="input-label" color="primary" position="fixed"
+      >Device name:</ion-label
+    >
+    <ion-input></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label class="input-label" color="primary" position="fixed"
+      >Device type:</ion-label
+    >
+    <ion-select okText="OK" cancelText="cancel">
+      <ion-select-option value="tcp">TCP</ion-select-option>
+      <ion-select-option value="udp">UDP</ion-select-option>
+      <ion-select-option value="http">HTTP</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label class="input-label" color="primary" position="fixed"
+      >Host:</ion-label
+    >
+    <ion-input></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label class="input-label" color="primary" position="fixed"
+      >Port:</ion-label
+    >
+    <ion-input></ion-input>
+  </ion-item>
+</ion-content>
+
+<!-- **************** Footer ************** -->
 
 <ion-footer class="ion-no-border">
   <ion-toolbar>

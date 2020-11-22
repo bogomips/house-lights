@@ -1,0 +1,102 @@
+// ***************** Header ******************* //
+h1 {
+  font-size: 22px;
+  color: #0ff50f;
+  margin: 15px;
+}
+
+.header-toolbar {
+  border-bottom: 2px solid var(--ion-color-primary);
+  --background: #121212;
+  ion-icon {
+    color: var(--ion-color-primary);
+    font-size: 27px;
+  }
+  .header-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+    span {
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--ion-color-primary);
+      padding: 0 7px;
+    }
+  }
+}
+
+.device-label {
+  font-size: 1.3rem;
+  margin-left: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ion-toolbar {
+  --background: #121212;
+}
+
+//************ Arrow animation ***************//
+$ease: cubic-bezier(0.2, 1, 0.3, 1);
+
+.wrapper {
+  position: absolute;
+  top: 60%;
+  left: 75%;
+  transform: translate(-50%, -50%);
+
+  svg {
+    fill: #fff705;
+    width: 27px;
+    height: auto;
+    margin: 0 2rem;
+    cursor: pointer;
+    overflow: visible;
+    polygon,
+    path {
+      transition: all 0.5s $ease;
+    }
+    &:hover polygon,
+    &:hover path {
+      transition: all 1s $ease;
+      fill: #ff4136;
+    }
+
+    &:hover .arrow {
+      animation: arrow-anim 1.5s $ease infinite;
+    }
+    &:hover .arrow-fixed {
+      animation: arrow-fixed-anim 1.5s $ease infinite;
+    }
+  }
+}
+
+@keyframes arrow-anim {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  5% {
+    transform: translateX(-0.2rem);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateX(2.5rem);
+    opacity: 0;
+  }
+}
+
+// ******************* Footer ********************** //
+
+.footerBtn {
+  font-size: 20px;
+  color: var(--ion-color-primary);
+  text-transform: lowercase;
+  ion-icon {
+    font-size: 20px;
+    padding-right: 5px;
+  }
+}

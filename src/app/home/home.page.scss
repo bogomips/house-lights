@@ -23,7 +23,7 @@
 // ************* Color Display & Info *************** //
 .colorshow {
   width: 100%;
-  height: 200px;
+  height: 190px;
   background-color: hsl(0, 100%, 50%);
   //text-align: center;
   display: flex;
@@ -107,8 +107,8 @@ ion-toggle {
   --background: #4c4b4e;
   --background-checked: #75fc07;
 
-  --handle-background: #b6b3bd;
-  --handle-background-checked: #b6b3bd;
+  --handle-background: var(--ion-color-primary);
+  --handle-background-checked: var(--ion-color-primary);
 
   height: 27px;
   width: 52px;
@@ -149,7 +149,4 @@ ion-toolbar {
 }
 .footerBtn {
   font-size: 19px;
-  ion-icon {
-    color: #b6b3bd;
-  }
 }

@@ -101,12 +101,21 @@
 
   <ion-item>
     <ion-label class="toggleLabel">Night mode</ion-label>
-    <ion-toggle [(ngModel)]="nightmode" (ionChange)="nightmodeChange()"  ></ion-toggle>
+    <ion-toggle
+      [(ngModel)]="nightmode"
+      (ionChange)="nightmodeChange()"
+    ></ion-toggle>
   </ion-item>
 
   <ion-item class="selectorBtn">
     <ion-label>Color Mode</ion-label>
-    <ion-select [(ngModel)]="mode" (ionChange)="modeChange()" value="basic" okText="OK" cancelText="cancel">
+    <ion-select
+      [(ngModel)]="mode"
+      (ionChange)="modeChange()"
+      value="basic"
+      okText="OK"
+      cancelText="cancel"
+    >
       <ion-select-option *ngFor="let mode of modes;" value="{{mode.value}}"
         >{{mode.name}}</ion-select-option
       >
@@ -207,14 +216,19 @@
 <ion-footer class="ion-no-border">
   <ion-toolbar>
     <ion-button
-      routerLink="/device-settings"
+      routerLink="/device-list"
       class="footerBtn"
       slot="start"
       fill="clear"
     >
       <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
     </ion-button>
-    <ion-button class="footerBtn" slot="end" fill="clear">
+    <ion-button
+      routerLink="/device-settings"
+      class="footerBtn"
+      slot="end"
+      fill="clear"
+    >
       <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
     </ion-button>
   </ion-toolbar>
