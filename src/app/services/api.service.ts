@@ -19,13 +19,25 @@ import { StateService } from '../services/state.service'
 export class ApiService {
 
   setup = {
-    bar: { 
-      endpoint:'http://192.168.1.230/'
-    },
-    bed: {
-      endpoint:'192.168.1.232',
-      port:4210
-    },
+    devices:[
+      { 
+        name: "bar",
+        type:'http',
+        host:'http://192.168.1.230/'
+      },
+      {
+        name: "bed",
+        type:'udp',
+        host:'192.168.1.232',
+        port:4210
+      },
+      {
+        name: "wall",
+        type:'udp',
+        host:'192.168.1.233',
+        port:4210
+      }
+    ],
     //generalPowerStatus:true,
     lastColor:'',
   }
@@ -68,56 +80,77 @@ export class ApiService {
 
   barSignSwitch(status) {
     status = (status) ? 'open' : 'close';
-    let endpoint = this.setup.bar.endpoint+status;
-    this.http.get(endpoint) .subscribe((data: any) => console.log(data));
+    let device = this.setup.devices.find(dev => dev.name === 'bar');    
+    this.http.get(device.host+status) .subscribe((data: any) => console.log(data));
+  }
+
+  sentToTypeDevices(datas,type,skipPower = false) {
+
+    const state =this.state.getButtonState();
+
+    if (!skipPower && !state['power'])
+      return;
+
+    for (let device of this.setup.devices) {
+      if (device.type == type && state[device.name]) {
+        for (let data of datas) { 
+          if (type == 'udp')
+            this.sendUpd(data,device); 
+        }
+      }
+    }
+
   }
 
   generalPowerStatus() {
     
-      const state =this.state.getButtonState();
+    const state =this.state.getButtonState();
 
-      if (state['bar'])
-        this.barSignSwitch(state['power']);
 
-      if (state['bed']) { 
-        this.sendUpd('basic'); //cannot use the setMode() or it will work only when I switch the power button on!
-        let colorOn = this.setup.lastColor || 'FF1486'
-        const hexCol =  (!state['power']) ? '000000' : colorOn;
-        this.sendUpd(`0x${hexCol}`);
-      }    
+    if (state['bar'])
+      this.barSignSwitch(state['power']);    
+        
+    let colorOn = this.setup.lastColor || 'FF1486'
+    const hexCol =  (!state['power']) ? '000000' : colorOn;
 
-    //this.setup.generalPowerStatus = status;
-  }
+    let datas = ['basic',`0x${hexCol}`]
+    this.sentToTypeDevices(datas,'udp',true);
+    
+
+      //let udpDevices = this.setup.devices.find(dev => dev.type === 'udp');          
+  }    
+
+    //this.setup.generalPowerStatus = status;  
 
   setColor(hexCol) {
 
     this.setup.lastColor=hexCol;
 
-    const state =this.state.getButtonState();
+    //const state =this.state.getButtonState();
+            
+    let color = `0x${hexCol}`;
+    this.sentToTypeDevices([color],'udp'); 
         
-    if (state['power'] && state['bed']) 
-      this.sendUpd(`0x${hexCol}`); 
-    
   }
 
   setMode(mode) { //console.log("mode >> ",mode);
 
     //this.setup.lastColor=colorHex;
-    const state =this.state.getButtonState();  
+    //const state =this.state.getButtonState();  
 
-    if (state['power'] && state['bed'])
-      this.sendUpd(mode);   
+    //if (state['power'] && (state['bed'] || state['wall']))
+    //  this.sendUpd(mode);   
+    this.sentToTypeDevices([mode],'udp');
 
   }
 
-  private async sendUpd(data) { //console.log(data);
+  private async sendUpd(data,device) { //console.log(data);
     
-    try {
-      //console.log(this.udpStruct.info.socketId)
-      await UdpPlugin.send({ socketId: this.udpStruct.info.socketId, address: this.setup.bed.endpoint, port: this.setup.bed.port, buffer: btoa(data)});      
-
+    try { 
+      //console.log(data,device.name)
+      await UdpPlugin.send({ socketId: this.udpStruct.info.socketId, address: device.host, port: device.port, buffer: btoa(data)});   
     } catch(e) {
-      console.log(e);
+      //console.log(e);
     }
 
   } 
