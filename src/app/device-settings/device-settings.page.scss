@@ -1,8 +1,3 @@
-h1 {
-  font-size: 22px;
-  color: #0ff50f;
-  margin: 15px auto 50px 15px;
-}
 .header-toolbar {
   border-bottom: 2px solid var(--ion-color-primary);
   --background: #121212;
@@ -24,24 +19,34 @@ h1 {
     }
   }
 }
-
 ion-toolbar {
   --background: #121212;
 }
-.input-label {
-  min-width: 135px !important;
+// *************** Input List **************** //
+.device-input {
+  margin-top: 22px;
+  ion-item {
+    --highlight-height: 0;
+  }
+  .input-label {
+    min-width: 135px !important;
+    font-size: 17px;
+  }
+  ion-input {
+    --color: #fff705;
+    --background: #312c2c;
+    --placeholder-color: var(--ion-color-primary);
+    --placeholder-opacity: 0.3;
+  }
+  ion-select {
+    background: #312c2c;
+    width: 100%;
+    max-width: 100% !important;
+    color: #fff705;
+    --placeholder-color: var(--ion-color-primary);
+  }
 }
-ion-input {
-  --color: #fff705;
-  --background: #312c2c;
-}
-ion-select {
-  background: #312c2c;
-  width: 100%;
-  max-width: 100% !important;
-  color: #fff705;
-}
-
+// *************** Footer **************** //
 .footerBtn {
   font-size: 20px;
   color: var(--ion-color-primary);
@@ -50,4 +55,8 @@ ion-select {
     font-size: 20px;
     padding-right: 5px;
   }
+}
+
+.inputHighlight {
+  --background: #555 !important;
 }

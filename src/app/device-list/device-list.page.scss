@@ -1,10 +1,4 @@
 // ***************** Header ******************* //
-h1 {
-  font-size: 22px;
-  color: #0ff50f;
-  margin: 15px;
-}
-
 .header-toolbar {
   border-bottom: 2px solid var(--ion-color-primary);
   --background: #121212;
@@ -59,16 +53,16 @@ $ease: cubic-bezier(0.2, 1, 0.3, 1);
     path {
       transition: all 0.5s $ease;
     }
-    &:hover polygon,
-    &:hover path {
+    polygon,
+    path {
       transition: all 1s $ease;
       fill: #ff4136;
     }
 
-    &:hover .arrow {
+    .arrow {
       animation: arrow-anim 1.5s $ease infinite;
     }
-    &:hover .arrow-fixed {
+    .arrow-fixed {
       animation: arrow-fixed-anim 1.5s $ease infinite;
     }
   }
@@ -87,6 +81,15 @@ $ease: cubic-bezier(0.2, 1, 0.3, 1);
     transform: translateX(2.5rem);
     opacity: 0;
   }
+}
+
+.optionEdit {
+  --background: #0ff50f;
+  font-weight: 800;
+}
+.optionDelete {
+  --background: #bf0000;
+  font-weight: 800;
 }
 
 // ******************* Footer ********************** //

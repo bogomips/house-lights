@@ -8,36 +8,59 @@
 </ion-header>
 
 <ion-content>
-  <h1>Add or modify a device:</h1>
-
-  <ion-item>
-    <ion-label class="input-label" color="primary" position="fixed"
-      >Device name:</ion-label
-    >
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label class="input-label" color="primary" position="fixed"
-      >Device type:</ion-label
-    >
-    <ion-select okText="OK" cancelText="cancel">
-      <ion-select-option value="tcp">TCP</ion-select-option>
-      <ion-select-option value="udp">UDP</ion-select-option>
-      <ion-select-option value="http">HTTP</ion-select-option>
-    </ion-select>
-  </ion-item>
-  <ion-item>
-    <ion-label class="input-label" color="primary" position="fixed"
-      >Host:</ion-label
-    >
-    <ion-input></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-label class="input-label" color="primary" position="fixed"
-      >Port:</ion-label
-    >
-    <ion-input></ion-input>
-  </ion-item>
+  <div class="device-input">
+    <form class="contact" [formGroup]="formDevice" (ngSubmit)="submit()">
+      <ion-item>
+        <ion-label class="input-label" color="primary" position="fixed"
+          >Device name:</ion-label
+        >
+        <ion-input
+          required
+          [ngClass]="inputSelected ? 'inputHighlight' : ' ' "
+          (ionFocus)="inputColorChange(true)"
+          (ionBlur)="inputColorChange(false)"
+          placeholder="Bedroom"
+          formControlName="name"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label class="input-label" color="primary" position="fixed"
+          >Device type:</ion-label
+        >
+        <ion-select
+          required
+          formControlName="type"
+          placeholder="Select"
+          okText="OK"
+          cancelText="cancel"
+        >
+          <ion-select-option value="tcp">TCP</ion-select-option>
+          <ion-select-option value="udp">UDP</ion-select-option>
+          <ion-select-option value="http">HTTP</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label class="input-label" color="primary" position="fixed"
+          >Host:</ion-label
+        >
+        <ion-input
+          formControlName="host"
+          required
+          placeholder="192.168.1.10"
+        ></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label class="input-label" color="primary" position="fixed"
+          >Port:</ion-label
+        >
+        <ion-input
+          formControlName="port"
+          required
+          placeholder="4210"
+        ></ion-input>
+      </ion-item>
+    </form>
+  </div>
 </ion-content>
 
 <!-- **************** Footer ************** -->
@@ -53,7 +76,12 @@
       icon="return-down-back-outline"
     >
     </ion-back-button>
-    <ion-button class="footerBtn" slot="end" fill="clear"
+    <ion-button
+      type="submit"
+      class="footerBtn"
+      slot="end"
+      fill="clear"
+      (click)="submit()"
       >save
       <ion-icon slot="icon-only" name="save-outline"></ion-icon>
     </ion-button>

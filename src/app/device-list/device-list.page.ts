@@ -1,4 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-device-list',
@@ -7,25 +10,59 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 })
 export class DeviceListPage implements OnInit {
 
- // @ViewChild('sliding') sliding;
+  @ViewChild('devicelist') devicelist;
+  sliderFullyOpened=true;
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private alertController:AlertController
+  ) { }
 
   ngOnInit() {
   }
 
-  // async slideDrag(ev){
-  //   //console.log("sliding" ,ev);
-  //   //let amount=await this.sliding.getOpenAmount();
-  //   let ratio=await this.sliding.getSlidingRatio()
-  //   console.log(ratio);
-  //   if (ratio < -3 ) console.log("I start the function I Want from left !");
-  //   if (ratio > 3 ) console.log("I start the function I Want from right !");
+  slideDrag(ev) {
+    //console.log("sliding ",ev);
+    this.sliderFullyOpened = (ev.detail.ratio >= 1) ? false : true;
+  }
 
-  //   if (ratio == 1 || ratio == -1)
-  //     await this.sliding.close();
+  editCallback(){
+    //console.log('pipina')
+    this.devicelist.closeSlidingItems();
+    this.sliderFullyOpened=true;
+    this.router.navigate(['/device-settings']);
+  }
+    
+  async deleteCallback(){
+    //console.log('pipina');
+    await this.presentAlert();
+  }
 
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Alert',
+      subHeader: 'Subtitle',
+      message: 'This is an alert message.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            //this.alertController.dismiss();
+          }
+        }, {
+          text: 'OK',
+          handler: () => {
+            console.log('Confirm Okay');
+          }
+        }
+      ]
+    });
 
-  // }
+    await alert.present();
+  }
+
 
 }
