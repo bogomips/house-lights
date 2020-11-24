@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { StoreService } from '../services/store.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -9,7 +11,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class DeviceSettingsPage implements OnInit {
 
-  inputSelected;
+  inputSelected={};
+  submitted=false;
+  
   formDevice = new FormGroup({
     name: new FormControl("", [Validators.required]),
     type: new FormControl("", [Validators.required]),
@@ -17,25 +21,33 @@ export class DeviceSettingsPage implements OnInit {
     port: new FormControl("", [Validators.required])
   })
 
-  constructor() { }
+  constructor(
+    private storeService:StoreService,
+    private router: Router
+  ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    //let subSim={name: "bar", type: "udp", host: "192.144.34.3", port: "4210"};
+    //await this.storeService.delete({type:'devices',data:{name: "bar", type: "udp", host: "192.144.34.3", port: "4210"}});    
+    //let a= await this.storeService.get();    
+    //console.log(a);
   }
 
-  inputColorChange(val){
-    this.inputSelected=true;
+  inputColorChange(field,val){
+    this.inputSelected[field]=val;        
   }
 
-  submit(){
-    console.log('shit');
+  async submit(){
+    
     this.formDevice.markAllAsTouched();
+    this.submitted=true;
+
     if (this.formDevice.valid) {
-      console.log('whatever ',this.formDevice.getRawValue());
-      // this.sending = true;
-      // let ret = await this.apiService.contactUs(this.form.getRawValue());
-      // this.emailSent = (_get(ret, 'data.sendContact') == 'true') ? true : false;
-      // this.sending = false;
-    }
+      //console.log('whatever ',this.formDevice.getRawValue());
+      await this.storeService.save('devices',this.formDevice.getRawValue());
+      this.router.navigate(['/home']);      
+    }    
+
   }
 
 }

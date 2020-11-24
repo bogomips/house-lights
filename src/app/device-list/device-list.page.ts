@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-
+import { StoreService } from '../services/store.service';
 
 @Component({
   selector: 'app-device-list',
@@ -13,17 +13,21 @@ export class DeviceListPage implements OnInit {
   @ViewChild('devicelist') devicelist;
   sliderFullyOpened=true;
 
-  constructor(
-    private router: Router,
-    private alertController:AlertController
-  ) { }
+  devices=[];
 
-  ngOnInit() {
+   constructor(
+    private router: Router,
+    private alertController:AlertController,
+    private storeService:StoreService,
+  ) { 
   }
 
-  slideDrag(ev) {
-    //console.log("sliding ",ev);
-    this.sliderFullyOpened = (ev.detail.ratio >= 1) ? false : true;
+  async ngOnInit() {
+    this.devices = await this.storeService.get('devices'); 
+  }
+
+  slideDrag(device,ev) {
+    device['sliderFullyOpened'] = (ev.detail.ratio >= 1) ? true : false;
   }
 
   editCallback(){
@@ -33,12 +37,12 @@ export class DeviceListPage implements OnInit {
     this.router.navigate(['/device-settings']);
   }
     
-  async deleteCallback(){
-    //console.log('pipina');
-    await this.presentAlert();
+  async deleteCallback(device){
+    let store = await this.storeService.delete({type:'devices',data:device},true);   
+    this.devices = store.devices;
   }
 
-  async presentAlert() {
+  async deleteAlert(device) {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
       header: 'Alert',
@@ -54,9 +58,7 @@ export class DeviceListPage implements OnInit {
           }
         }, {
           text: 'OK',
-          handler: () => {
-            console.log('Confirm Okay');
-          }
+          handler: () => this.deleteCallback(device)
         }
       ]
     });

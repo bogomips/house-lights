@@ -8,12 +8,18 @@
 </ion-header>
 
 <ion-content>
+
+  <div *ngIf="!devices.length" style="color:red;">
+    <p>Please Add your fist device from here</p>
+     Add icon and link to the add page bla bla, remove the style inline, etc
+  </div>
+
   <ion-list #devicelist>
-    <ion-item-sliding (ionDrag)="slideDrag($event)">
+    <ion-item-sliding *ngFor="let device of devices" (ionDrag)="slideDrag(device,$event)">
       <ion-item>
         <ion-label class="device-label" color="primary"
-          >Bar Sign
-          <div *ngIf="sliderFullyOpened" class="wrapper">
+          >{{device.name}}
+          <div *ngIf="!device.sliderFullyOpened" class="wrapper">
             <svg
               width="18px"
               height="17px"
@@ -46,11 +52,12 @@
         <ion-item-option (click)="editCallback()" class="optionEdit"
           >Edit</ion-item-option
         >
-        <ion-item-option (click)="deleteCallback()" class="optionDelete"
+        <ion-item-option (click)="deleteAlert(device)" class="optionDelete"
           >Delete</ion-item-option
         >
       </ion-item-options>
     </ion-item-sliding>
+    
   </ion-list>
 </ion-content>
 

@@ -60,3 +60,7 @@ ion-toolbar {
 .inputHighlight {
   --background: #555 !important;
 }
+
+.requiredMsg {
+  color:var(--ion-color-danger);
+}

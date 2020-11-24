@@ -16,9 +16,9 @@
         >
         <ion-input
           required
-          [ngClass]="inputSelected ? 'inputHighlight' : ' ' "
-          (ionFocus)="inputColorChange(true)"
-          (ionBlur)="inputColorChange(false)"
+          [ngClass]="inputSelected['name'] ? 'inputHighlight' : ' ' "
+          (ionFocus)="inputColorChange('name',true)"
+          (ionBlur)="inputColorChange('name',false)"
           placeholder="Bedroom"
           formControlName="name"
         ></ion-input>
@@ -28,6 +28,9 @@
           >Device type:</ion-label
         >
         <ion-select
+          [ngStyle]="{'background-color':inputSelected['type'] ? '#555' : '' }"                      
+          (ionFocus)="inputColorChange('type',true)"
+          (ionBlur)="inputColorChange('type',false)"
           required
           formControlName="type"
           placeholder="Select"
@@ -44,6 +47,9 @@
           >Host:</ion-label
         >
         <ion-input
+          [ngClass]="inputSelected['host'] ? 'inputHighlight' : ' ' "
+          (ionFocus)="inputColorChange('host',true)"
+          (ionBlur)="inputColorChange('host',false)"
           formControlName="host"
           required
           placeholder="192.168.1.10"
@@ -54,13 +60,19 @@
           >Port:</ion-label
         >
         <ion-input
+          [ngClass]="inputSelected['port'] ? 'inputHighlight' : ' ' "
+          (ionFocus)="inputColorChange('port',true)"
+          (ionBlur)="inputColorChange('port',false)"
           formControlName="port"
           required
           placeholder="4210"
         ></ion-input>
       </ion-item>
-    </form>
+    </form>    
   </div>
+
+  <p *ngIf="!formDevice.valid && submitted" class="requiredMsg ion-text-center">All fields are required</p>
+
 </ion-content>
 
 <!-- **************** Footer ************** -->
