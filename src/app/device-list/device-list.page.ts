@@ -11,7 +11,6 @@ import { StoreService } from '../services/store.service';
 export class DeviceListPage implements OnInit {
 
   @ViewChild('devicelist') devicelist;
-  sliderFullyOpened=true;
 
   devices=[];
 
@@ -30,11 +29,11 @@ export class DeviceListPage implements OnInit {
     device['sliderFullyOpened'] = (ev.detail.ratio >= 1) ? true : false;
   }
 
-  editCallback(){
-    //console.log('pipina')
-    this.devicelist.closeSlidingItems();
-    this.sliderFullyOpened=true;
-    this.router.navigate(['/device-settings']);
+  async editCallback(device){
+    
+    await this.devicelist.closeSlidingItems();
+    device['sliderFullyOpened']=false;
+    this.router.navigate(['/device-settings',device.name]);
   }
     
   async deleteCallback(device){

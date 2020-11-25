@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import * as _remove from 'lodash/remove';
 import { Plugins } from "@capacitor/core";
 const { Storage } = Plugins;
+import * as _findIndex from 'lodash/findIndex';
+
 
 interface Store {
   devices: any[];
@@ -22,8 +24,17 @@ export class StoreService {
 
   constructor() { }
 
-  async save(type,data) {    
-    this.store['devices'].push(data);
+  async save(type,data) {   
+
+    if (type == 'devices') {
+      const devInd = _findIndex(this.store.devices,(d) => (d.name == data.name) );
+
+      if (devInd > -1)
+        this.deleteDevice(this.store.devices[devInd]);
+
+    }
+
+    this.store[type].push(data);
     await this.permanentSave();
   }
 

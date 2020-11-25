@@ -10,12 +10,13 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  },  {
+  },
+  {
     path: 'device-list',
     loadChildren: () => import('./device-list/device-list.module').then( m => m.DeviceListPageModule)
   },
   {
-    path: 'device-settings',
+    path: 'device-settings/:name',
     loadChildren: () => import('./device-settings/device-settings.module').then( m => m.DeviceSettingsPageModule)
   },
 

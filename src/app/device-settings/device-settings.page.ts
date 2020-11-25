@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { StoreService } from '../services/store.service';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
+import * as _find from 'lodash/find';
+import * as _pick from 'lodash/pick';
 
 
 @Component({
@@ -13,7 +15,7 @@ export class DeviceSettingsPage implements OnInit {
 
   inputSelected={};
   submitted=false;
-  
+ 
   formDevice = new FormGroup({
     name: new FormControl("", [Validators.required]),
     type: new FormControl("", [Validators.required]),
@@ -23,14 +25,21 @@ export class DeviceSettingsPage implements OnInit {
 
   constructor(
     private storeService:StoreService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private route: ActivatedRoute
+  ) { 
+
+  }
 
   async ngOnInit() {
-    //let subSim={name: "bar", type: "udp", host: "192.144.34.3", port: "4210"};
-    //await this.storeService.delete({type:'devices',data:{name: "bar", type: "udp", host: "192.144.34.3", port: "4210"}});    
-    //let a= await this.storeService.get();    
-    //console.log(a);
+    const deviceParam=this.route.snapshot.paramMap.get("name");
+    const devices = await this.storeService.get('devices');
+    const device = _find(devices, function(d) { return d.name == deviceParam });
+    if (deviceParam && device)
+      this.formDevice.setValue(_pick(device, ['name', 'type','host','port']));
+    else if (deviceParam != 'new')
+      this.router.navigate(['/device-settings','new']);
+    
   }
 
   inputColorChange(field,val){

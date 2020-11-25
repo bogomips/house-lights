@@ -49,7 +49,7 @@
         </ion-label>
       </ion-item>
       <ion-item-options>
-        <ion-item-option (click)="editCallback()" class="optionEdit"
+        <ion-item-option (click)="editCallback(device)" class="optionEdit"
           >Edit</ion-item-option
         >
         <ion-item-option (click)="deleteAlert(device)" class="optionDelete"
@@ -72,8 +72,8 @@
       icon="return-down-back-outline"
     >
     </ion-back-button>
-    <ion-button class="footerBtn" slot="end" fill="clear"
-      >save
+    <ion-button routerLink="/device-settings/new" class="footerBtn" slot="end" fill="clear"
+      >add
       <ion-icon slot="icon-only" name="save-outline"></ion-icon>
     </ion-button>
   </ion-toolbar>
