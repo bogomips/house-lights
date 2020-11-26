@@ -15,17 +15,18 @@ interface Store {
 })
 export class StoreService {
 
-  store:Store={
-    //devices: [{name: "bar", type: "udp", host: "192.144.34.3", port: "4210"},{name: "wall", type: "udp", host: "192.144.34.4", port: "4210"}],  
-    devices: [],  
-  }
+  store:Store;
 
   storageRetrieved=false; //SET TO FALSE AFTER TESTS!!!
 
-  constructor() { }
+  constructor() {
+    this.store={
+    //devices: [{name: "bar", type: "udp", host: "192.144.34.3", port: "4210"},{name: "wall", type: "udp", host: "192.144.34.4", port: "4210"}],  
+    devices: [],  
+  }
+  }
 
   async save(type,data) {   
-
     if (type == 'devices') {
       const devInd = _findIndex(this.store.devices,(d) => (d.name == data.name) );
 
@@ -38,12 +39,15 @@ export class StoreService {
     await this.permanentSave();
   }
 
-  async get(type=null) {
+  async get(type=null) {console.log(this.store);
     if (this.storageRetrieved)
       return (type) ? this.store[type] : this.store;
     else {
-      const appStorage = await Storage.get({key:'appStorage'});  
-      this.store = JSON.parse(appStorage.value);
+      const appStorage = await Storage.get({key:'appStorage'}); 
+      const appStorageObj =  JSON.parse(appStorage.value);
+      if (appStorageObj)
+        this.store = appStorageObj;
+
       this.storageRetrieved=true;
       return this.get(type);
     }        

@@ -3,7 +3,7 @@ import {Platform } from '@ionic/angular';
 import * as _chunk from 'lodash/chunk';
 import * as _clone from 'lodash/clone';
 //import { TinyColor } from '@ctrl/tinycolor';
-
+import { AlertController } from '@ionic/angular';
 import { ColorsService } from '../services/colors.service';
 import { ApiService } from '../services/api.service'
 import { StateService } from '../services/state.service'
@@ -33,6 +33,7 @@ export class HomePage {
 
   constructor(
     private platform: Platform,
+    private alertController:AlertController,
     private colors: ColorsService,
     private api:ApiService,
     private state:StateService
@@ -223,6 +224,30 @@ export class HomePage {
   //   let index = this.getIndexFromRiCi(ri,ci)
   //   this.selectedColor = this.presetColors[index].hsl;
   // }
+
+// alerts // 
+async hexInputAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'hexIput',
+      header: 'Type a hex color',
+      inputs: [
+        {
+          name: 'HEX',
+          placeholder: '#FF0023'
+        }],
+      buttons: [
+        {
+          text: 'apply',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Confirm Cancel');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
 
   getPreset(preset) {
     //let hsl = preset;

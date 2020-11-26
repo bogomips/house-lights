@@ -33,14 +33,25 @@
         [ngClass]="(contrastThreshold > 128)?'colorContrastBlack':'colorContrastWhite'"
         class="colorshowinfo"
       >
-        <p>hex: #{{selectedColor.hex}}</p>
+        <p>
+          hex: #{{selectedColor.hex}}
+          <ion-button fill="clear" slot="icon-only" (click)='hexInputAlert()'>
+            <ion-icon name="create-outline"></ion-icon
+          ></ion-button>
+        </p>
         <p>
           hsl: {{selectedColor.hsl.h}} - {{selectedColor.hsl.s}}% -
           {{selectedColor.hsl.l}}%
+          <ion-button fill="clear" slot="icon-only">
+            <ion-icon name="create-outline"></ion-icon
+          ></ion-button>
         </p>
         <p>
           rgb: {{selectedColor.rgb.r}} - {{selectedColor.rgb.g}} -
           {{selectedColor.rgb.b}}
+          <ion-button fill="clear" slot="icon-only">
+            <ion-icon name="create-outline"></ion-icon
+          ></ion-button>
         </p>
       </div>
     </div>
@@ -217,7 +228,7 @@
   <ion-toolbar>
     <ion-button
       routerLink="/device-list"
-      class="footerBtn"
+      class="footerBtn settingsBtn"
       slot="start"
       fill="clear"
     >
@@ -225,7 +236,7 @@
     </ion-button>
     <ion-button
       routerLink="/device-settings/new"
-      class="footerBtn"
+      class="footerBtn addBtn"
       slot="end"
       fill="clear"
     >

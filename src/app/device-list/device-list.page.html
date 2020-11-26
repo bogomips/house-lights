@@ -8,14 +8,22 @@
 </ion-header>
 
 <ion-content>
-
-  <div *ngIf="!devices.length" style="color:red;">
-    <p>Please Add your fist device from here</p>
-     Add icon and link to the add page bla bla, remove the style inline, etc
+  <div
+    *ngIf="!devices.length"
+    style="color: var(--ion-color-danger)"
+    class="ion-padding ion-margin addDeviceMsg"
+  >
+    <p>
+      Your device list is empty. <br /><br />
+      Please add a device by using the add button below.
+    </p>
   </div>
 
   <ion-list #devicelist>
-    <ion-item-sliding *ngFor="let device of devices" (ionDrag)="slideDrag(device,$event)">
+    <ion-item-sliding
+      *ngFor="let device of devices"
+      (ionDrag)="slideDrag(device,$event)"
+    >
       <ion-item>
         <ion-label class="device-label" color="primary"
           >{{device.name}}
@@ -57,7 +65,6 @@
         >
       </ion-item-options>
     </ion-item-sliding>
-    
   </ion-list>
 </ion-content>
 
@@ -72,9 +79,17 @@
       icon="return-down-back-outline"
     >
     </ion-back-button>
-    <ion-button routerLink="/device-settings/new" class="footerBtn" slot="end" fill="clear"
+    <ion-button
+      routerLink="/device-settings/new"
+      class="footerBtn"
+      slot="end"
+      fill="clear"
       >add
-      <ion-icon slot="icon-only" name="save-outline"></ion-icon>
+      <ion-icon
+        slot="icon-only"
+        size="large"
+        name="add-circle-outline"
+      ></ion-icon>
     </ion-button>
   </ion-toolbar>
 </ion-footer>

@@ -29,7 +29,7 @@
           >Device type:</ion-label
         >
         <ion-select
-          [ngStyle]="{'background-color':inputSelected['type'] ? '#555' : '' }"                      
+          [ngStyle]="{'background-color':inputSelected['type'] ? '#555' : '' }"
           (ionFocus)="inputColorChange('type',true)"
           (ionBlur)="inputColorChange('type',false)"
           required
@@ -69,11 +69,12 @@
           placeholder="4210"
         ></ion-input>
       </ion-item>
-    </form>    
+    </form>
   </div>
 
-  <p *ngIf="!formDevice.valid && submitted" class="requiredMsg ion-text-center">All fields are required</p>
-
+  <p *ngIf="!formDevice.valid && submitted" class="requiredMsg ion-text-center">
+    All fields are required
+  </p>
 </ion-content>
 
 <!-- **************** Footer ************** -->

@@ -15,7 +15,7 @@ export class DeviceSettingsPage implements OnInit {
 
   inputSelected={};
   submitted=false;
- 
+  
   formDevice = new FormGroup({
     name: new FormControl("", [Validators.required]),
     type: new FormControl("", [Validators.required]),

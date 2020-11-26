@@ -14,15 +14,15 @@ export class DeviceListPage implements OnInit {
 
   devices=[];
 
-   constructor(
+  constructor(
     private router: Router,
     private alertController:AlertController,
     private storeService:StoreService,
   ) { 
   }
 
-  async ngOnInit() {
-    this.devices = await this.storeService.get('devices'); 
+  async ngOnInit() { console.log("cacca");
+    this.devices = await this.storeService.get('devices');
   }
 
   slideDrag(device,ev) {
@@ -43,20 +43,19 @@ export class DeviceListPage implements OnInit {
 
   async deleteAlert(device) {
     const alert = await this.alertController.create({
-      cssClass: 'my-custom-class',
-      header: 'Alert',
-      subHeader: 'Subtitle',
-      message: 'This is an alert message.',
+      cssClass: 'alertDeleteMsg',
+      subHeader: 'You know you are about to delete it,',
+      message: 'Right?',
       buttons: [
         {
-          text: 'Cancel',
+          text: 'Oops',
           role: 'cancel',
-          cssClass: 'secondary',
+          cssClass: 'alertDeleteBtn',
           handler: () => {
             //this.alertController.dismiss();
           }
         }, {
-          text: 'OK',
+          text: 'Yes!',
           handler: () => this.deleteCallback(device)
         }
       ]
