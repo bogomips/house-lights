@@ -225,7 +225,7 @@ export class HomePage {
   //   this.selectedColor = this.presetColors[index].hsl;
   // }
 
-// alerts // 
+//*******************  alerts ********************* // 
 async hexInputAlert() {
     const alert = await this.alertController.create({
       cssClass: 'hexIput',
@@ -238,9 +238,55 @@ async hexInputAlert() {
       buttons: [
         {
           text: 'apply',
-          cssClass: 'secondary',
+          cssClass: 'hexInputBtn',
           handler: () => {
-            console.log('Confirm Cancel');
+            console.log('Confirm apply');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+async hslInputAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'hslIput',
+      header: 'Type a hsl value',
+      inputs: [
+        {
+          name: 'HSL',
+          placeholder: '21-100%-12%'
+        }],
+      buttons: [
+        {
+          text: 'apply',
+          cssClass: 'hslInputBtn',
+          handler: () => {
+            console.log('Confirm value');
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async rgbInputAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'rgbIput',
+      header: 'Type an rgb color',
+      inputs: [
+        {
+          name: 'RGB',
+          placeholder: '61-21-0'
+        }],
+      buttons: [
+        {
+          text: 'apply',
+          cssClass: 'rgbInputBtn',
+          handler: () => {
+            console.log('Confirm apply');
           }
         }
       ]
