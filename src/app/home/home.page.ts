@@ -182,6 +182,23 @@ export class HomePage {
     this.state.setButtonState({power: this.powerOn, buttons:this.switchButtons});
   }
 
+  setColorHsl(type,value) {
+
+    this.selectedColor.hsl[type]=value; //ev.detail.value;
+    this.selectedColor.hex=this.colorConversion('hex', this.selectedColor.hsl);
+    this.selectedColor.rgb=this.colorConversion('rgb', this.selectedColor.hsl);
+    this.api.setColor(this.selectedColor.hex);    
+  }
+
+  setColorHex(value) {
+    
+    this.selectedColor.hex=value.replace(/^#/i, '');        
+    this.selectedColor.hsl = this.colors.hexToHsl(this.selectedColor.hex);
+    //this.selectedColor.hex=this.colorConversion('hex', this.selectedColor.hsl);
+    this.selectedColor.rgb=this.colorConversion('rgb', this.selectedColor.hsl);
+    this.api.setColor(this.selectedColor.hex);    
+  }
+
   slideChange(type,ev) {
 
     if (this.mode != 'basic'  || this.nightmode) {
@@ -189,11 +206,7 @@ export class HomePage {
       this.modeChange();
     }
 
-    this.selectedColor.hsl[type]=ev.detail.value;
-    this.selectedColor.hex=this.colorConversion('hex', this.selectedColor.hsl);
-    this.api.setColor(this.selectedColor.hex);
-
-    this.selectedColor.rgb=this.colorConversion('rgb', this.selectedColor.hsl);
+    this.setColorHsl(type,ev.detail.value);
     this.contrast(this.selectedColor.rgb);
   }
 
@@ -239,8 +252,8 @@ async hexInputAlert() {
         {
           text: 'apply',
           cssClass: 'secondary',
-          handler: () => {
-            console.log('Confirm Cancel');
+          handler: (value) => {            
+            this.setColorHex(value.HEX);
           }
         }
       ]
