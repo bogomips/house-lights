@@ -252,8 +252,9 @@ async hexInputAlert() {
         {
           text: 'apply',
           cssClass: 'secondary',
-          handler: (value) => {            
-            this.setColorHex(value.HEX);
+          handler: (value) => {      
+            if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(value))      
+              this.setColorHex(value.HEX);
           }
         }
       ]
