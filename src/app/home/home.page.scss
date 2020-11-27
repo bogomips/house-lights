@@ -47,12 +47,18 @@
 }
 .colorContrastWhite {
   color: #fff;
-  text-shadow: 1px 1px #333;
+  text-shadow: 0.5px 0.5px #333;
+  ion-button {
+    --color: #fff;
+  }
 }
 
 .colorContrastBlack {
   color: #333;
-  text-shadow: 1px 1px #eee;
+  text-shadow: 0.5px 0.5px #eee;
+  ion-button {
+    --color: #333;
+  }
 }
 
 // *************** Slides ************** //
@@ -61,7 +67,7 @@
 }
 
 .rangecontrol {
-  --pin-background: black;
+  --pin-background: #bbb;
   --knob-size: 30px;
   --knob-box-shadow: 0px 0px 5px 2px #999;
   --knob-background: white;

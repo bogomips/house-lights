@@ -40,8 +40,8 @@
           ></ion-button>
         </p>
         <p>
-          hsl: {{selectedColor.hsl.h}} - {{selectedColor.hsl.s}}% -
-          {{selectedColor.hsl.l}}%
+          hsl: {{selectedColor.hsl.h}} - {{selectedColor.hsl.s}} -
+          {{selectedColor.hsl.l}}
           <ion-button fill="clear" slot="icon-only" (click)='colorInputAlert("hsl")'>
             <ion-icon name="create-outline"></ion-icon
           ></ion-button>
@@ -59,7 +59,7 @@
     <!-- *************** Color Controls hex,hsl,rgb  *********************** -->
 
     <div class="colorcontrols">
-      <ion-range
+      <ion-range      
         class="hcontrol rangecontrol"
         (ionChange)="slideChange('h',$event)"
         [value]="selectedColor.hsl.h"

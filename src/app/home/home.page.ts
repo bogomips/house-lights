@@ -206,7 +206,7 @@ export class HomePage {
         
     this.selectedColor.rgb=value;
     const hslArr = this.colors.rgbToHsl(value.r,value.g,value.b);    
-    this.selectedColor.hsl={h:hslArr[0]*360,s:hslArr[1]*100,l:hslArr[2]*100};    
+    this.selectedColor.hsl={h:Math.round(hslArr[0]*360),s:Math.round(hslArr[1]*100),l:Math.round(hslArr[2]*100)};    
     this.selectedColor.hex=this.colorConversion('hex', this.selectedColor.hsl);
 
     this.api.setColor(this.selectedColor.hex);    
