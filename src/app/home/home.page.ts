@@ -293,7 +293,7 @@ async colorInputAlert(type) {
       buttons: [
         {
           text: 'apply',
-          cssClass: 'secondary',
+          cssClass: 'hexInputBtn',
           handler: (value) => {                  
             
             if ((type == 'hex') && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(value.HEX))  {              
@@ -311,8 +311,6 @@ async colorInputAlert(type) {
               this.setColorRgb({r:rgbArr[0],g:rgbArr[1],b:rgbArr[2]});
 
             }
-
-
           }
         }
       ]
@@ -320,6 +318,8 @@ async colorInputAlert(type) {
 
     await alert.present();
   }
+
+
 
   getPreset(preset) {
     //let hsl = preset;

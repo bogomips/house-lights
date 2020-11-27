@@ -53,6 +53,8 @@ export class DeviceListPage implements OnInit {
           cssClass: 'alertDeleteBtn',
           handler: () => {
             //this.alertController.dismiss();
+            this.devicelist.closeSlidingItems();
+            device['sliderFullyOpened']=false;
           }
         }, {
           text: 'Yes!',
