@@ -35,21 +35,21 @@
       >
         <p>
           hex: #{{selectedColor.hex}}
-          <ion-button fill="clear" slot="icon-only" (click)='hexInputAlert()'>
+          <ion-button fill="clear" slot="icon-only" (click)='colorInputAlert("hex")'>
             <ion-icon name="create-outline"></ion-icon
           ></ion-button>
         </p>
         <p>
           hsl: {{selectedColor.hsl.h}} - {{selectedColor.hsl.s}}% -
           {{selectedColor.hsl.l}}%
-          <ion-button fill="clear" slot="icon-only">
+          <ion-button fill="clear" slot="icon-only" (click)='colorInputAlert("hsl")'>
             <ion-icon name="create-outline"></ion-icon
           ></ion-button>
         </p>
         <p>
           rgb: {{selectedColor.rgb.r}} - {{selectedColor.rgb.g}} -
           {{selectedColor.rgb.b}}
-          <ion-button fill="clear" slot="icon-only">
+          <ion-button fill="clear" slot="icon-only" (click)='colorInputAlert("rgb")'>
             <ion-icon name="create-outline"></ion-icon
           ></ion-button>
         </p>

@@ -183,8 +183,12 @@ export class HomePage {
   }
 
   setColorHsl(type,value) {
+    
+    if (type == 'all')
+      this.selectedColor.hsl=value; 
+    else
+    this.selectedColor.hsl[type]=value; 
 
-    this.selectedColor.hsl[type]=value; //ev.detail.value;
     this.selectedColor.hex=this.colorConversion('hex', this.selectedColor.hsl);
     this.selectedColor.rgb=this.colorConversion('rgb', this.selectedColor.hsl);
     this.api.setColor(this.selectedColor.hex);    
@@ -193,9 +197,18 @@ export class HomePage {
   setColorHex(value) {
     
     this.selectedColor.hex=value.replace(/^#/i, '');        
-    this.selectedColor.hsl = this.colors.hexToHsl(this.selectedColor.hex);
-    //this.selectedColor.hex=this.colorConversion('hex', this.selectedColor.hsl);
+    this.selectedColor.hsl = this.colors.hexToHsl(this.selectedColor.hex);    
     this.selectedColor.rgb=this.colorConversion('rgb', this.selectedColor.hsl);
+    this.api.setColor(this.selectedColor.hex);    
+  }
+
+  setColorRgb(value) {
+        
+    this.selectedColor.rgb=value;
+    const hslArr = this.colors.rgbToHsl(value.r,value.g,value.b);    
+    this.selectedColor.hsl={h:hslArr[0]*360,s:hslArr[1]*100,l:hslArr[2]*100};    
+    this.selectedColor.hex=this.colorConversion('hex', this.selectedColor.hsl);
+
     this.api.setColor(this.selectedColor.hex);    
   }
 
@@ -239,22 +252,67 @@ export class HomePage {
   // }
 
 // alerts // 
-async hexInputAlert() {
+isValidHsl(value) {
+  const hslArr = value.split('-');  
+  return ( (hslArr[0] >= 0 && hslArr[0] <= 360) && (hslArr[1] >= 0 && hslArr[1] <= 100) && (hslArr[0] >= 0 && hslArr[0] <= 100) );
+}
+
+isValidRgb(value) { 
+  const rgbArr = value.split('-'); 
+  return ( (rgbArr[0] >= 0 && rgbArr[0] <= 255) && (rgbArr[1] >= 0 && rgbArr[1] <= 255) && (rgbArr[0] >= 0 && rgbArr[0] <= 255) );
+}
+
+async colorInputAlert(type) {
+
+    let header, name, placeholder;
+
+    if (type == 'hex') {
+      header='Type a hex color';
+      name='HEX';
+      placeholder='#FF0023';
+    }
+    else if (type == 'hsl') {
+      header='Type a hsl color';
+      name='HSL';
+      placeholder='0-50-100';
+    }
+    else if (type == 'rgb') { 
+      header='Type a rgb color';
+      name='RGB';
+      placeholder='255-255-255';
+    }
+
     const alert = await this.alertController.create({
       cssClass: 'hexIput',
-      header: 'Type a hex color',
+      header: header,
       inputs: [
         {
-          name: 'HEX',
-          placeholder: '#FF0023'
+          name: name,
+          placeholder: placeholder
         }],
       buttons: [
         {
           text: 'apply',
           cssClass: 'secondary',
-          handler: (value) => {      
-            if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(value))      
+          handler: (value) => {                  
+            
+            if ((type == 'hex') && /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(value.HEX))  {              
               this.setColorHex(value.HEX);
+            }
+            else if ((type == 'hsl') && this.isValidHsl(value.HSL)) {
+
+              const hslArr = value.HSL.split('-');              
+              this.setColorHsl('all',{h:hslArr[0],s:hslArr[1],l:hslArr[2]});
+
+            }
+            else if ((type == 'rgb') && this.isValidRgb(value.RGB)) {
+
+              const rgbArr = value.RGB.split('-');                   
+              this.setColorRgb({r:rgbArr[0],g:rgbArr[1],b:rgbArr[2]});
+
+            }
+
+
           }
         }
       ]
