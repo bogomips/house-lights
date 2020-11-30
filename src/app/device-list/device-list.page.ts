@@ -21,7 +21,7 @@ export class DeviceListPage implements OnInit {
   ) { 
   }
 
-  async ngOnInit() { console.log("cacca");
+  async ngOnInit() { 
     this.devices = await this.storeService.get('devices');
   }
 
@@ -29,11 +29,11 @@ export class DeviceListPage implements OnInit {
     device['sliderFullyOpened'] = (ev.detail.ratio >= 1) ? true : false;
   }
 
-  async editCallback(device){
+  async editCallback(device){ console.log(device)
     
     await this.devicelist.closeSlidingItems();
     device['sliderFullyOpened']=false;
-    this.router.navigate(['/device-settings',device.name]);
+    this.router.navigate(['/device-settings',device.id]);
   }
     
   async deleteCallback(device){
@@ -44,8 +44,8 @@ export class DeviceListPage implements OnInit {
   async deleteAlert(device) {
     const alert = await this.alertController.create({
       cssClass: 'alertDeleteMsg',
-      subHeader: 'You know you are about to delete it,',
-      message: 'Right?',
+      subHeader: 'Delete device',
+      message: 'Are you want to delete this device?',
       buttons: [
         {
           text: 'Oops',

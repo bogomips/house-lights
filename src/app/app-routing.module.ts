@@ -16,7 +16,7 @@ const routes: Routes = [
     loadChildren: () => import('./device-list/device-list.module').then( m => m.DeviceListPageModule)
   },
   {
-    path: 'device-settings/:name',
+    path: 'device-settings/:id',
     loadChildren: () => import('./device-settings/device-settings.module').then( m => m.DeviceSettingsPageModule)
   },
 

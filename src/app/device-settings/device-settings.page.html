@@ -10,6 +10,14 @@
 <ion-content>
   <div class="device-input">
     <form class="contact" [formGroup]="formDevice" (ngSubmit)="submit()">
+        
+        <ion-input                    
+          type="hidden"
+          value="Disabled"
+          required          
+          formControlName="id"          
+        ></ion-input>
+      
       <ion-item>
         <ion-label class="input-label" color="primary" position="fixed"
           >Device name:</ion-label
@@ -20,8 +28,7 @@
           (ionFocus)="inputColorChange('name',true)"
           (ionBlur)="inputColorChange('name',false)"
           placeholder="Bedroom"
-          formControlName="name"
-          value="dio"
+          formControlName="name"          
         ></ion-input>
       </ion-item>
       <ion-item>
@@ -69,6 +76,48 @@
           placeholder="4210"
         ></ion-input>
       </ion-item>
+
+    <ion-item>
+      <ion-label class="input-label" color="primary" position="fixed">Supports colors</ion-label>
+      <ion-toggle 
+        required 
+        formControlName="supportscolors">
+      </ion-toggle>
+    </ion-item>
+
+    <ion-item>
+      <ion-label class="input-label" color="primary" position="fixed">Custom on/off</ion-label>
+      <ion-toggle 
+        required 
+        (ionChange)="customonoffChange()"
+        formControlName="customonoff">
+      </ion-toggle>
+    </ion-item>
+
+    <ion-item *ngIf="formDevice.controls.customonoff.value">
+      <ion-label class="input-label" color="primary" position="fixed">"On" Cmd</ion-label>
+      <ion-input
+        [ngClass]="inputSelected['oncmd'] ? 'inputHighlight' : ' ' "
+        (ionFocus)="inputColorChange('oncmd',true)"
+        (ionBlur)="inputColorChange('oncmd',false)"
+        formControlName="oncmd"
+        required
+        placeholder="open"
+      ></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="formDevice.controls.customonoff.value">
+      <ion-label class="input-label" color="primary" position="fixed">"Off" Cmd</ion-label>
+      <ion-input
+        [ngClass]="inputSelected['offcmd'] ? 'inputHighlight' : ' ' "
+        (ionFocus)="inputColorChange('offcmd',true)"
+        (ionBlur)="inputColorChange('offcmd',false)"
+        formControlName="offcmd"
+        required
+        placeholder="close"
+      ></ion-input>
+    </ion-item>
+
     </form>
   </div>
 

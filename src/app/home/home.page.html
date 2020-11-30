@@ -5,9 +5,9 @@
     <div class="toolbarBtn">
       <ion-button
         fill="clear"
-        (click)="toolbarToggle(i)"
-        *ngFor="let button of switchButtons; let i=index;"
-        [color]="(button.active) ? 'success' : 'light'"
+        (click)="deviceActiveToggle(i)"
+        *ngFor="let device of appStore?.devices; let i=index;"
+        [color]="(device.active) ? 'success' : 'light'"
       >
         <!-- <ion-icon
           class="headerIcons"
@@ -16,8 +16,8 @@
           slot="icon-only"
         >
         </ion-icon> -->
-        <span [ngClass]="button.active ? ' glow' : '' "
-          >{{button.station}}</span
+        <span [ngClass]="device.active ? ' glow' : '' "
+          >{{device.name}}</span
         >
       </ion-button>
     </div>
@@ -26,7 +26,7 @@
 
 <!-- *************** Color Picker/Colorshow *********************** -->
 
-<ion-content [fullscreen]="true">
+<ion-content *ngIf="appStore" [fullscreen]="true">
   <div class="colorpicker">
     <div [ngStyle]="{'background-color':getCurrentHslCss()}" class="colorshow">
       <div
@@ -34,21 +34,21 @@
         class="colorshowinfo"
       >
         <p>
-          hex: #{{selectedColor.hex}}
+          hex: #{{appStore.selectedColor.hex}}
           <ion-button fill="clear" slot="icon-only" (click)='colorInputAlert("hex")'>
             <ion-icon name="create-outline"></ion-icon
           ></ion-button>
         </p>
         <p>
-          hsl: {{selectedColor.hsl.h}} - {{selectedColor.hsl.s}} -
-          {{selectedColor.hsl.l}}
+          hsl: {{appStore.selectedColor.hsl.h}} - {{appStore.selectedColor.hsl.s}} -
+          {{appStore.selectedColor.hsl.l}}
           <ion-button fill="clear" slot="icon-only" (click)='colorInputAlert("hsl")'>
             <ion-icon name="create-outline"></ion-icon
           ></ion-button>
         </p>
         <p>
-          rgb: {{selectedColor.rgb.r}} - {{selectedColor.rgb.g}} -
-          {{selectedColor.rgb.b}}
+          rgb: {{appStore.selectedColor.rgb.r}} - {{appStore.selectedColor.rgb.g}} -
+          {{appStore.selectedColor.rgb.b}}
           <ion-button fill="clear" slot="icon-only" (click)='colorInputAlert("rgb")'>
             <ion-icon name="create-outline"></ion-icon
           ></ion-button>
@@ -62,7 +62,9 @@
       <ion-range      
         class="hcontrol rangecontrol"
         (ionChange)="slideChange('h',$event)"
-        [value]="selectedColor.hsl.h"
+        (mouseup)="saveColor()"
+        (touchend)="saveColor()"
+        [value]="appStore.selectedColor.hsl.h"
         min="0"
         max="360"
         pin="true"
@@ -70,19 +72,23 @@
       <ion-range
         [style.--bar-background]="getSaturationGradient()"
         (ionChange)="slideChange('s',$event)"
+        (mouseup)="saveColor()"
+        (touchend)="saveColor()"
         class="scontrol rangecontrol"
         min="0"
         max="100"
-        [value]="selectedColor.hsl.s"
+        [value]="appStore.selectedColor.hsl.s"
         pin="true"
       ></ion-range>
       <ion-range
         [style.--bar-background]="getLuminanceGradient()"
         (ionChange)="slideChange('l',$event)"
+        (mouseup)="saveColor()"
+        (touchend)="saveColor()"
         class="lcontrol rangecontrol"
         min="0"
         max="100"
-        [value]="selectedColor.hsl.l"
+        [value]="appStore.selectedColor.hsl.l"
         pin="true"
       ></ion-range>
     </div>
@@ -110,13 +116,13 @@
 
   <!-- *************** Night Mode Toggle & Mode Selector *********************** -->
 
-  <ion-item>
+  <!-- <ion-item>
     <ion-label class="toggleLabel">Night mode</ion-label>
     <ion-toggle
       [(ngModel)]="nightmode"
       (ionChange)="nightmodeChange()"
     ></ion-toggle>
-  </ion-item>
+  </ion-item> -->
 
   <ion-item class="selectorBtn">
     <ion-label>Color Mode</ion-label>
@@ -127,9 +133,7 @@
       okText="OK"
       cancelText="cancel"
     >
-      <ion-select-option *ngFor="let mode of modes;" value="{{mode.value}}"
-        >{{mode.name}}</ion-select-option
-      >
+      <ion-select-option *ngFor="let mode of modes;" value="{{mode.value}}">{{mode.name}}</ion-select-option>
 
       <!-- <ion-select-option value="night">Night</ion-select-option>
       <ion-select-option value="rainbow">Rainbow</ion-select-option>
@@ -151,77 +155,6 @@
     </ion-button>
   </div>
 
-  <!-- <color-hue-picker class="colorcontrol" (onChange)="handleChange($event)" [color]="presetColors[0].hsl" [width]="pickerWidth"></color-hue-picker>
-  <color-shade-picker class="colorcontrol" (onChange)="handleChange($event)" [color]="presetColors[0].hsl" [width]="pickerWidth"></color-shade-picker> 
-  <color-alpha-picker class="colorcontrol" (onChange)="handleChange($event)"    [color]="presetColors[0].hsl" [width]="pickerWidth"></color-alpha-picker>  -->
-  <!-- <span 
-      [style.background]="presetColors.selectedColor"
-      [cpToggle]="true"
-      [cpDialogDisplay]="'inline'"
-      [cpWidth]="300"
-      cpDisableInput="false"
-      [cpCancelButton]="false"
-      [(colorPicker)]="presetColors.selectedColor">
-    </span> -->
-
-  <!-- <color-sketch [presetColors]="[]"  color="#ff00ff"></color-sketch> -->
-
-  <!-- <p>DIOOO</p>
-    
-    <color-block></color-block>
-    <color-chrome></color-chrome>
-    <color-circle></color-circle>
-    <color-compact></color-compact>
-    <color-github></color-github>
-    <color-material></color-material>
-    <color-photoshop></color-photoshop>
-    <color-sketch></color-sketch>
-    <color-slider></color-slider>
-    <color-swatches></color-swatches>
-    <color-twitter></color-twitter>  -->
-
-  <!-- <ion-list>
-      <ion-item>
-        <ion-label>Night mode</ion-label>
-        <ion-toggle [(ngModel)]="pepperoni"></ion-toggle>
-      </ion-item>
-    
-      <ion-item>
-        <ion-label>Rainbow mode</ion-label>
-        <ion-toggle [(ngModel)]="sausage"></ion-toggle>
-      </ion-item>
-
-    </ion-list>
-
-    <ion-grid>
-      <ion-row *ngFor="let presetRow of presetColorsChunks">
-        <ion-col *ngFor="let preset of presetRow">
-          <div class="preset" [style.background]="preset.color" (click)="selectedColor='preset1'"></div>
-        </ion-col>
-      </ion-row>
-    </ion-grid> -->
-
-  <!-- <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">dio</ion-title>
-    </ion-toolbar>
-  </ion-header> -->
-
-  <!--<div id="container">
-    <strong>Set your color</strong>
-    <div>
-      <ion-input type="color" id="color" name="color" value="#e66465"></ion-input>
-      <input cpToggle="true" cpDialogDisplay="inline" cpPosition="top" cpWidth="200" [(colorPicker)]="color" [style.background]="color"/>
-
-    <span [style.background]="arrayColors[0]"
-      [cpToggle]="true"
-      [cpDialogDisplay]="'inline'"
-      [cpCancelButton]="true"
-      [(colorPicker)]="arrayColors[0]"></span>
-
-  </div>
-  
-  </div>-->
 </ion-content>
 <!-- ****************** Footer *********************** -->
 <ion-footer class="ion-no-border">

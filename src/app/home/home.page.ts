@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Platform } from '@ionic/angular';
 import * as _chunk from 'lodash/chunk';
 import * as _clone from 'lodash/clone';
@@ -6,7 +6,8 @@ import * as _clone from 'lodash/clone';
 import { AlertController } from '@ionic/angular';
 import { ColorsService } from '../services/colors.service';
 import { ApiService } from '../services/api.service'
-import { StateService } from '../services/state.service'
+//import { StateService } from '../services/state.service'
+import { StoreService } from '../services/store.service';
 
 //import {UdpPluginUtils} from "capacitor-udp"; // if you want support for converting between ArrayBuffer and String
 
@@ -16,16 +17,17 @@ import { StateService } from '../services/state.service'
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
-  presetColors;
+  //presetColors;
   modes;
-  nightmode;
+  //nightmode;
   mode='basic';
   presetColorsChunks;
   //pickerWidth;
-  selectedColor;
+  //selectedColor;
   switchButtons;
+  appStore;
   
   powerOn:boolean=true;  ///PLEASE DELETE ME!!!!!!
   contrastThreshold;
@@ -36,84 +38,13 @@ export class HomePage {
     private alertController:AlertController,
     private colors: ColorsService,
     private api:ApiService,
-    private state:StateService
+    //private state:StateService,
+    private storeService:StoreService,
+
   ) {
 
     //this.pickerWidth = this.platform.width()-50;
     //console.log(this.pickerWidth,this.pickerWidth+50)
-
-    this.presetColors=[
-      {
-        hsl: {h: 0, s: 100, l: 50,},
-        buttonStatus:false
-      },
-      {
-        hsl: {h: 50, s: 100, l: 50,},
-        buttonStatus:false
-      },
-      {
-        hsl: {h: 100, s: 100, l: 50,},
-        buttonStatus:false
-      },
-      {
-        hsl: {h: 175, s: 100, l: 50,},
-        buttonStatus:false
-      },
-      {
-        hsl: {h: 200, s: 100, l: 50,},
-        buttonStatus:false
-      },
-      {
-        hsl: {h: 275, s: 100, l: 50,},
-        buttonStatus:false
-      },
-      {
-        hsl: {h: 300, s: 100, l: 50,},
-        buttonStatus:false
-      },
-      {
-        hsl: {h: 330, s: 100, l: 50,},
-        buttonStatus:false
-      }
-    ];
-
-    this.selectedColor = {
-      hsl: {
-        h: 0,
-        s: 100, 
-        l: 0
-      },
-      hex: '000000',
-      rgb: {
-        r:0,
-        g:0,
-        b:0
-      }
-    }
-
-    this.switchButtons = [
-      {
-        station: 'bar',
-        icon: '/assets/svg/noun_beer mug_1028502.svg',
-        active:true
-      },
-      {
-        station: 'table',
-        icon:'/assets/svg/noun_Ceiling lamp_1842794.svg',
-        active:true
-      },
-      {
-        station: 'wall',
-        icon:'/assets/svg/noun_Couch_3243381.svg',
-        active:true
-      },
-      {
-        station: 'bed',
-        icon:'/assets/svg/noun_Love_2195485.svg',
-        active:true
-      }
-
-    ]
           
     this.modes =[
       {
@@ -123,6 +54,10 @@ export class HomePage {
       {
         name: 'Rainbow',
         value: 'rainbow',
+      },
+      {
+        name: 'Night mode',
+        value: 'nightmode',
       },
       {
         name: 'Meteor',
@@ -142,9 +77,24 @@ export class HomePage {
       }
     ] 
 
-    this.presetColorsChunks=_chunk(this.presetColors,this.presetsLine);
-    this.state.setButtonState({power: this.powerOn, buttons:this.switchButtons});
+    // this.presetColorsChunks=_chunk(this.presetColors,this.presetsLine);
+    //this.state.setButtonState({power: this.powerOn, buttons:this.switchButtons});
 
+  }
+
+  async ngOnInit() {
+
+    this.appStore = await this.storeService.get(); 
+    this.presetColorsChunks=_chunk(this.appStore.presetColors,this.presetsLine);
+    this.storeService.appStoreChanged().subscribe((appStore) => {                                 
+      //console.log("Att store changed ",appStore);      
+      this.appStore=appStore;   
+    });          
+
+  }
+
+  saveColor() {
+    this.storeService.save('selectedColor',this.appStore.selectedColor);
   }
 
   colorConversion(type,colorHsl) {
@@ -162,77 +112,67 @@ export class HomePage {
   }
 
   modeChange() {
-    if (this.nightmode) 
-      this.nightmode=false; //this triggers this function again and it goes into the else branch - this is to avoid to cal setMode() twice
-    else
-      this.api.setMode(this.mode);
-    
+    this.api.sendCommands({mode:this.mode});
+    this.storeService.save('mode',this.mode); //save the whole device
   }
 
-  nightmodeChange(){
-    if (this.nightmode) 
-      this.api.setMode('nightmode');
-    else
-      this.modeChange();
-
-  }
-
-  toolbarToggle(i) {
-    this.switchButtons[i].active = ! this.switchButtons[i].active;
-    this.state.setButtonState({power: this.powerOn, buttons:this.switchButtons});
+  deviceActiveToggle(i) { console.log(i)
+    this.appStore.devices[i].active = !this.appStore.devices[i].active;
+    this.appStore.devices[i].power = this.powerOn;
+    this.storeService.save('devices',this.appStore.devices[i]);
   }
 
   setColorHsl(type,value) {
     
     if (type == 'all')
-      this.selectedColor.hsl=value; 
+      this.appStore.selectedColor.hsl=value; 
     else
-    this.selectedColor.hsl[type]=value; 
+    this.appStore.selectedColor.hsl[type]=value; 
 
-    this.selectedColor.hex=this.colorConversion('hex', this.selectedColor.hsl);
-    this.selectedColor.rgb=this.colorConversion('rgb', this.selectedColor.hsl);
-    this.api.setColor(this.selectedColor.hex);    
+    this.appStore.selectedColor.hex=this.colorConversion('hex', this.appStore.selectedColor.hsl);
+    this.appStore.selectedColor.rgb=this.colorConversion('rgb', this.appStore.selectedColor.hsl);
+    this.api.sendCommands({color:this.appStore.selectedColor.hex});    
   }
 
   setColorHex(value) {
     
-    this.selectedColor.hex=value.replace(/^#/i, '');        
-    this.selectedColor.hsl = this.colors.hexToHsl(this.selectedColor.hex);    
-    this.selectedColor.rgb=this.colorConversion('rgb', this.selectedColor.hsl);
-    this.api.setColor(this.selectedColor.hex);    
+    this.appStore.selectedColor.hex=value.replace(/^#/i, '');        
+    this.appStore.selectedColor.hsl = this.colors.hexToHsl(this.appStore.selectedColor.hex);    
+    this.appStore.selectedColor.rgb=this.colorConversion('rgb', this.appStore.selectedColor.hsl);
+    this.api.sendCommands({color:this.appStore.selectedColor.hex});
   }
 
   setColorRgb(value) {
         
-    this.selectedColor.rgb=value;
+    this.appStore.selectedColor.rgb=value;
     const hslArr = this.colors.rgbToHsl(value.r,value.g,value.b);    
-    this.selectedColor.hsl={h:Math.round(hslArr[0]*360),s:Math.round(hslArr[1]*100),l:Math.round(hslArr[2]*100)};    
-    this.selectedColor.hex=this.colorConversion('hex', this.selectedColor.hsl);
+    this.appStore.selectedColor.hsl={h:Math.round(hslArr[0]*360),s:Math.round(hslArr[1]*100),l:Math.round(hslArr[2]*100)};    
+    this.appStore.selectedColor.hex=this.colorConversion('hex', this.appStore.selectedColor.hsl);
 
-    this.api.setColor(this.selectedColor.hex);    
+    this.api.sendCommands({color:this.appStore.selectedColor.hex});
   }
 
   slideChange(type,ev) {
 
-    if (this.mode != 'basic'  || this.nightmode) {
+    if (this.mode != 'basic') {
       this.mode='basic';
       this.modeChange();
     }
 
     this.setColorHsl(type,ev.detail.value);
-    this.contrast(this.selectedColor.rgb);
+    this.contrast(this.appStore.selectedColor.rgb);
   }
 
-  getCurrentHslCss() {
-    return `hsl(${this.selectedColor.hsl.h},${this.selectedColor.hsl.s}%,${this.selectedColor.hsl.l}%)`;
+  getCurrentHslCss() { 
+    return `hsl(${this.appStore.selectedColor.hsl.h},${this.appStore.selectedColor.hsl.s}%,${this.appStore.selectedColor.hsl.l}%)`;
   }
 
   getSaturationGradient() {
-    return `linear-gradient(to left, hsl(${this.selectedColor.hsl.h},100%,50%) 20%, rgb(128, 128, 128))`;
+    return `linear-gradient(to left, hsl(${this.appStore.selectedColor.hsl.h},100%,50%) 20%, rgb(128, 128, 128))`;
   }
 
   getLuminanceGradient() {
-    return `linear-gradient(to right, hsl(0, 0%, 0%), hsl(${this.selectedColor.hsl.h},100%,50%), hsl(255, 50%, 100%))`;
+    return `linear-gradient(to right, hsl(0, 0%, 0%), hsl(${this.appStore.selectedColor.hsl.h},100%,50%), hsl(255, 50%, 100%))`;
   }
 
   getIndexFromRiCi(ri,ci) {
@@ -248,18 +188,18 @@ export class HomePage {
 
   // setPreset(ri,ci) {
   //   let index = this.getIndexFromRiCi(ri,ci)
-  //   this.selectedColor = this.presetColors[index].hsl;
+  //   this.appStore.selectedColor = this.presetColors[index].hsl;
   // }
 
 // alerts // 
 isValidHsl(value) {
   const hslArr = value.split('-');  
-  return ( (hslArr[0] >= 0 && hslArr[0] <= 360) && (hslArr[1] >= 0 && hslArr[1] <= 100) && (hslArr[0] >= 0 && hslArr[0] <= 100) );
+  return ( (hslArr[0] >= 0 && hslArr[0] <= 360) && (hslArr[1] >= 0 && hslArr[1] <= 100) && (hslArr[2] >= 0 && hslArr[2] <= 100) );
 }
 
 isValidRgb(value) { 
   const rgbArr = value.split('-'); 
-  return ( (rgbArr[0] >= 0 && rgbArr[0] <= 255) && (rgbArr[1] >= 0 && rgbArr[1] <= 255) && (rgbArr[0] >= 0 && rgbArr[0] <= 255) );
+  return ( (rgbArr[0] >= 0 && rgbArr[0] <= 255) && (rgbArr[1] >= 0 && rgbArr[1] <= 255) && (rgbArr[2] >= 0 && rgbArr[2] <= 255) );
 }
 
 async colorInputAlert(type) {
@@ -319,10 +259,7 @@ async colorInputAlert(type) {
     await alert.present();
   }
 
-
-
   getPreset(preset) {
-    //let hsl = preset;
     return `hsl(${preset.hsl.h},${preset.hsl.s}%,${preset.hsl.l}%)`;
   }
 
@@ -331,7 +268,7 @@ async colorInputAlert(type) {
     let index = this.getIndexFromRiCi(ri,ci);
 
     let i=0;
-    for (let preset of this.presetColors) {
+    for (let preset of this.appStore.presetColors) {
 
       if (preset.buttonStatus && index!==i )
         preset.buttonStatus=false;
@@ -341,9 +278,11 @@ async colorInputAlert(type) {
     preset.buttonStatus=!preset.buttonStatus;
 
     if (!preset.buttonStatus)
-      preset.hsl=_clone(this.selectedColor.hsl);
+      preset.hsl=_clone(this.appStore.selectedColor.hsl);
     else
-      this.selectedColor.hsl = _clone(preset.hsl);
+      this.appStore.selectedColor.hsl = _clone(preset.hsl);
+
+    this.saveColor();
 
   }
 
@@ -351,11 +290,10 @@ async colorInputAlert(type) {
     this.contrastThreshold = this.colors.rgbToYIQ(colorRgb);
   }
   
-
   powerToggle() {
     this.powerOn=!this.powerOn;
-    this.state.setButtonState({power: this.powerOn, buttons:this.switchButtons});
-    this.api.generalPowerStatus();
+    this.api.sendCommands({power:this.powerOn});
+    this.storeService.save('power',this.powerOn);
   }
 
 
