@@ -73,7 +73,18 @@ export class StoreService {
   constructor() {
 
     this.store={
-      //devices: [{name: "bar", type: "udp", host: "192.144.34.3", port: "4210"},{name: "wall", type: "udp", host: "192.144.34.4", port: "4210"}],  
+      // devices: [
+      //     {id:1,name: "bar", type: "udp", host: "192.144.34.3", port: 4210,mode:"basic",active:true},
+      //     {id:2,name: "wall", type: "udp", host: "192.144.34.4", port: 4210,mode:"basic",active:true},
+      //      {id:3,name: "bar1", type: "udp", host: "192.144.34.3", port: 4210,mode:"basic",active:true},
+      //     {id:4,name: "wall1", type: "udp", host: "192.144.34.4", port: 4210,mode:"basic",active:true},
+      //      {id:5,name: "bar2", type: "udp", host: "192.144.34.3", port: 4210,mode:"basic",active:true},
+      //     {id:6,name: "wall2", type: "udp", host: "192.144.34.4", port: 4210,mode:"basic",active:true},
+      //      {id:7,name: "bar3", type: "udp", host: "192.144.34.3", port: 4210,mode:"basic",active:true},
+      //     {id:8,name: "wall4", type: "udp", host: "192.144.34.4", port: 4210,mode:"basic",active:true},
+      //      {id:9,name: "bar5", type: "udp", host: "192.144.34.3", port: 4210,mode:"basic",active:true},
+      //     {id:10,name: "wall5", type: "udp", host: "192.144.34.4", port: 4210,mode:"basic",active:true},
+      // ],  
       devices: [],  
       power: true,
       mode: 'basic',

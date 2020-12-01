@@ -10,13 +10,16 @@
 <ion-content>
   <div
     *ngIf="!devices.length"
-    style="color: var(--ion-color-danger)"
-    class="ion-padding ion-margin addDeviceMsg"
+    style="color: #fff705"
+    class= "addDeviceMsg"
   >
-    <p>
-      Your device list is empty. <br /><br />
-      Please add a device by using the add button below.
+    <p class="ion-padding ion-margin">
+      Your list seems empty. <br /><br />
+      You can add a device by using the add button below.
     </p>
+   <ion-icon
+      src= "/assets/svg/bulb-rolling-eyes.svg"
+     ></ion-icon>
   </div>
 
   <ion-list #devicelist>

@@ -3,23 +3,27 @@
     color="linear-gradient(0deg, rgba(22,23,23,1) 0%, rgba(101,96,96,1) 62%, rgba(133,137,139,1) 100%);"
   >
     <div class="toolbarBtn">
-      <ion-button
+
+    <div
+      *ngIf="!appStore?.devices.length"
+      style="color: var(--ion-color-primary)"
+      class= "homeTitle"
+  >
+      <p>No devices yet added</p>
+    </div>
+
+      
+       <ion-button
         fill="clear"
         (click)="deviceActiveToggle(i)"
         *ngFor="let device of appStore?.devices; let i=index;"
         [color]="(device.active) ? 'success' : 'light'"
       >
-        <!-- <ion-icon
-          class="headerIcons"
-          [color]="(button.active) ? 'success' : 'dark'"
-          [src]="button.icon"
-          slot="icon-only"
-        >
-        </ion-icon> -->
+    
         <span [ngClass]="device.active ? ' glow' : '' "
           >{{device.name}}</span
         >
-      </ion-button>
+      </ion-button> 
     </div>
   </ion-toolbar>
 </ion-header>

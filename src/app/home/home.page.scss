@@ -2,10 +2,12 @@
   margin: 15px 15px 10px 15px;
 }
 
-// ************* Toolbar Buttons ***************** //
+// ************* Toolbar ***************** //
 .toolbarBtn {
   display: flex;
-  justify-content: space-around;
+  //justify-content: space-around;
+  overflow: scroll;
+  // margin-left: 10px;
 
   .headerIcons {
     transform: scale(1.4);
@@ -19,6 +21,17 @@
 .glow {
   text-shadow: 0px 0px 5px #0ff50f;
   transition: all 1s ease-in-out;
+}
+
+.homeTitle{
+  text-transform: uppercase;
+  font-weight: bolder;
+  font-size: 18px;
+  p{
+    position: relative;
+    top: 20%;
+    left: 40%;
+  }
 }
 // ************* Color Display & Info *************** //
 .colorshow {
@@ -153,6 +166,7 @@ ion-list {
   ion-button {
     font-size: 25px;
     height: auto;
+    padding-top: 30px;
   }
 }
 
