@@ -116,7 +116,7 @@ export class HomePage implements OnInit {
     this.storeService.save('mode',this.mode); //save the whole device
   }
 
-  deviceActiveToggle(i) { console.log(i)
+  deviceActiveToggle(i) { 
     this.appStore.devices[i].active = !this.appStore.devices[i].active;
     this.appStore.devices[i].power = this.powerOn;
     this.storeService.save('devices',this.appStore.devices[i]);
