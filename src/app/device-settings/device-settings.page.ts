@@ -52,7 +52,7 @@ export class DeviceSettingsPage implements OnInit {
     else     
       this.formDevice.patchValue({id:uuidv1()});
 
-      console.log(this.formDevice)
+    //console.log(this.formDevice)
   }
 
   customonoffChange() {

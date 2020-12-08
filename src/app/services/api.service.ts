@@ -100,8 +100,8 @@ export class ApiService {
     
     const appStore = await this.storeService.get();
     let commands=[];
-
-    for (let device of appStore.devices) { //console.log(device)
+    //console.log(appStore)
+    for (let device of appStore.devices) { 
 
       if (!device.active)
         continue;
@@ -112,16 +112,16 @@ export class ApiService {
           const commandonoff =  (params.power) ? device.oncmd : device.offcmd;
           commands.push(commandonoff)
         }
-        else if (device.supportscolors) {
+        else if (device.supportscolors) { 
 
-          const colorOn = appStore.selectedColor.hex || 'FF1486';
-          const color =  (!appStore['power']) ? '000000' : colorOn;
-
-          if (device.mode == 'basic') {
+          const colorOn = appStore.selectedColor.hex || 'FF1486'; 
+          const color =  (!appStore['power']) ? '000000' : colorOn; 
+          
+          if (appStore.mode == 'basic') {
             commands.push('basic');
             commands.push(`0x${color}`);
           }
-          else if (device.mode != 'basic') 
+          else  
             commands.push(device.mode);   
         }            
 
