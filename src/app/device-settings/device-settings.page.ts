@@ -24,6 +24,7 @@ export class DeviceSettingsPage implements OnInit {
     host: new FormControl("", [Validators.required]),
     port: new FormControl("", [Validators.required]),
     supportscolors: new FormControl(true, [Validators.required]),
+    supportsbrightness: new FormControl(true, [Validators.required]),
     customonoff: new FormControl(false, [Validators.required]),
     oncmd: new FormControl(""),
     offcmd: new FormControl(""),
@@ -46,7 +47,7 @@ export class DeviceSettingsPage implements OnInit {
     //console.log(deviceParam, device)
 
     if (deviceParam && device) 
-      this.formDevice.patchValue(_pick(device, ['id','name', 'type','host','port','supportscolors','customonoff','oncmd','offcmd']));  
+      this.formDevice.patchValue(_pick(device, ['id','name', 'type','host','port','supportscolors','supportsbrightness','customonoff','oncmd','offcmd']));  
     else if (deviceParam != 'new')
       this.router.navigate(['/device-settings','new']);    
     else     

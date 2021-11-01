@@ -96,12 +96,12 @@ export class ApiService {
   //   }
   // }
 
-  async sendCommands(params) {
+  async sendCommands(params) { //console.log(params)
     
     const appStore = await this.storeService.get();
     let commands=[];
     //console.log(appStore)
-    for (let device of appStore.devices) { 
+    for (let device of appStore.devices) { //console.log(device)
 
       if (!device.active)
         continue;
@@ -123,7 +123,10 @@ export class ApiService {
           }
           else  
             commands.push(device.mode);   
-        }            
+        } 
+        else if (device.supportsbrightness) {
+          commands.push(`0x6`);
+        }           
 
       }
 
@@ -132,6 +135,11 @@ export class ApiService {
       
       if ('color' in params && params.color && device.supportscolors && appStore.power) 
         commands.push(`0x${params.color}`);
+      
+      if ('color' in params && params.color && device.supportsbrightness && appStore.power) {
+        const val = (params.slidesLevels.l < 6) ? 6 : params.slidesLevels.l;
+        commands.push(`0x${val}`);
+      }
       
      
       for (let command of commands) { 
@@ -161,6 +169,24 @@ export class ApiService {
 
   } 
 
+
+  async sendLoc(location) { //console.log(">>>",data);
+
+    const url = `http://home.petrelli.biz:8888/`; 
+    const httpOptions = {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    };
+
+    //this.http.post(url).subscribe((data: any) => console.log(data));
+    console.log("sending....")
+    let ret = this.http.post(url, location, httpOptions).subscribe((data: any) => {      
+      console.log("inside returning...")
+      console.log("b-RET>>>",JSON.stringify(data)); 
+    });
+    //console.log(">> ret call ... ", JSON.stringify(ret));
+    
+
+ }
 
 
 }

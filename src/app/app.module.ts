@@ -10,6 +10,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from  '@angular/common/http';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx';
+import { Device } from '@ionic-native/device/ngx';
+
+
 
 
 @NgModule({
@@ -19,6 +23,8 @@ import { HttpClientModule } from  '@angular/common/http';
   providers: [
     StatusBar,
     SplashScreen,
+    BackgroundGeolocation,
+    Device,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]

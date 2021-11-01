@@ -127,11 +127,11 @@ export class HomePage implements OnInit {
     if (type == 'all')
       this.appStore.selectedColor.hsl=value; 
     else
-    this.appStore.selectedColor.hsl[type]=value; 
+      this.appStore.selectedColor.hsl[type]=value; 
 
     this.appStore.selectedColor.hex=this.colorConversion('hex', this.appStore.selectedColor.hsl);
     this.appStore.selectedColor.rgb=this.colorConversion('rgb', this.appStore.selectedColor.hsl);
-    this.api.sendCommands({color:this.appStore.selectedColor.hex});    
+    this.api.sendCommands({color:this.appStore.selectedColor.hex,slidesLevels:this.appStore.selectedColor.hsl});    
   }
 
   setColorHex(value) {
