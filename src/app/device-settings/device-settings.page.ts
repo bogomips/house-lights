@@ -51,7 +51,7 @@ export class DeviceSettingsPage implements OnInit {
     else if (deviceParam != 'new')
       this.router.navigate(['/device-settings','new']);    
     else     
-      this.formDevice.patchValue({id:uuidv1()});
+      this.formDevice.patchValue({id:4});
 
     //console.log(this.formDevice)
   }

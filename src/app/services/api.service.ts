@@ -184,9 +184,14 @@ export class ApiService {
       console.log("b-RET>>>",JSON.stringify(data)); 
     });
     //console.log(">> ret call ... ", JSON.stringify(ret));
-    
+  }
 
- }
+  async syncDevicesList() {
+    const url = `http://192.168.1.2:8088/devices-setup`; 
+    return this.http.get(url,{
+      responseType: 'json',
+    }).toPromise();
+  }
 
 
 }

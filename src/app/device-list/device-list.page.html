@@ -83,6 +83,18 @@
     >
     </ion-back-button>
     <ion-button
+      class="footerBtn"     
+      slot="start"
+      fill="clear"
+      (click)="syncFromServer()"
+    > Sync
+    <ion-icon
+        slot="icon-only"
+        size="large"
+        name="sync-outline"
+      ></ion-icon>
+    </ion-button>
+    <ion-button
       routerLink="/device-settings/new"
       class="footerBtn"
       slot="end"

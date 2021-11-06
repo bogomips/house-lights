@@ -2,6 +2,7 @@ import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { StoreService } from '../services/store.service';
+import { ApiService } from '../services/api.service'
 
 @Component({
   selector: 'app-device-list',
@@ -12,12 +13,13 @@ export class DeviceListPage implements OnInit {
 
   @ViewChild('devicelist') devicelist;
 
-  devices=[];
+  devices:any=[];
 
   constructor(
     private router: Router,
     private alertController:AlertController,
     private storeService:StoreService,
+    private api:ApiService
   ) { 
   }
 
@@ -39,6 +41,16 @@ export class DeviceListPage implements OnInit {
   async deleteCallback(device){
     let store = await this.storeService.delete({type:'devices',data:device},true);   
     this.devices = store.devices;
+  }
+
+  async syncFromServer() {    
+    for (let device of this.devices) { 
+      await this.storeService.delete(device);
+    }
+    this.devices = await this.api.syncDevicesList();
+    for (let device of this.devices) {     
+      await this.storeService.save('devices',device);
+    }
   }
 
   async deleteAlert(device) {

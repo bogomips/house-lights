@@ -143,7 +143,7 @@ export class StoreService {
     
     if (type == 'devices') {
       const devInd = _findIndex(this.store.devices,(d) => (d.id == data.id) );
-
+      //console.log(type,data,devInd);
       if (devInd > -1)
         this.store.devices[devInd]=data;          
       else 
