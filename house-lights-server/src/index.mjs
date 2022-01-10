@@ -9,8 +9,13 @@ import chalk from 'chalk';
 import config from './config.mjs';
 import routes from './routes.mjs'
 
+import udpServer from './helpers/udpServer.mjs'
 
 const subSystemsInit  = async ()  => {
+
+  udpServer.init({
+    port: config.udpPort
+  });
 
 }
 

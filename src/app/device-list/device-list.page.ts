@@ -45,8 +45,9 @@ export class DeviceListPage implements OnInit {
 
   async syncFromServer() {    
     for (let device of this.devices) { 
-      await this.storeService.delete(device);
+      await this.storeService.delete(device);            
     }
+    this.devices=[];
     this.devices = await this.api.syncDevicesList();
     for (let device of this.devices) {     
       await this.storeService.save('devices',device);

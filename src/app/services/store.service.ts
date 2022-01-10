@@ -195,10 +195,10 @@ export class StoreService {
   }
 
   async deleteDevice(device) {  
-    _remove(this.store.devices,{name:device.name});        
+    _remove(this.store.devices,{name:device.id});        
   }
 
-  async delete(optObj,returnObj:boolean=false) {
+  async delete(optObj,returnObj:boolean=false) { console.log(optObj);
 
     if (optObj.type == 'devices')
       this.deleteDevice(optObj.data);
