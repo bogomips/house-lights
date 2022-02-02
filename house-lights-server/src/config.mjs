@@ -14,7 +14,7 @@ const devicesArray = [
         id: '',
         name: 'table',
         type: 'udp',
-        host: '192.168.1.15',
+        host: '192.168.1.2',
         port: '4210',
         supportscolors: true,
         supportsbrightness: false,
