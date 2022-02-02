@@ -4,7 +4,7 @@ ENV NODE_ENV=production
 
 #RUN apt-get update && apt-get install -y curl && apt-get clean
 
-EXPOSE 83
+EXPOSE 8088 4210/udp
 
 WORKDIR /Ctest
 
@@ -24,7 +24,7 @@ RUN npm ci && npm cache clean --force
 COPY . .
 
 #HEALTHCHECK CMD curl http://127.0.0.1:4000/healthcheck || exit 1
-HEALTHCHECK CMD node /Ctest/healthcheck_cmd.mjs
+#HEALTHCHECK CMD node /Ctest/healthcheck_cmd.mjs
 
 USER node
-CMD [ "node", "index.mjs" ]
+CMD [ "node", "src/index.mjs" ]
