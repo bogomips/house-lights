@@ -6,7 +6,7 @@ ENV NODE_ENV=production
 
 EXPOSE 8088 4210/udp
 
-WORKDIR /Ctest
+WORKDIR /hsl
 
 # Install NTPD for time synchronization and timezone data.
 RUN apk --no-cache update && \
