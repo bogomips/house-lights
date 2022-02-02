@@ -1,6 +1,6 @@
-FROM node:current-alpine
+FROM node:current-alpine3.12
 
-ENV NODE_ENV=production
+#ENV NODE_ENV=production
 
 #RUN apt-get update && apt-get install -y curl && apt-get clean
 
@@ -19,7 +19,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 COPY package*.json ./
 ## extra_hosts is ignored and had to use echo here
 #RUN echo "10.0.0.15 mercury.mesh" >> /etc/hosts
-RUN npm ci && npm cache clean --force 
+RUN npm ci && npm cache clean --force
 
 COPY . .
 
