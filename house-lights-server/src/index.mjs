@@ -40,6 +40,7 @@ const koaSetup = ()  => {
       allowMethods: ['GET', 'POST', 'DELETE','OPTIONS'],
       allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
     };
+    app.use(koaLogger());
     app.use(cors(corsSetup));        
     app.use(routes.routes());
     app.use(compress({
@@ -51,9 +52,7 @@ const koaSetup = ()  => {
       flush: zlib.constants.Z_SYNC_FLUSH
     }));
     
-   
-    app.use(koaLogger())
-  
+     
     return app;
   
 }
